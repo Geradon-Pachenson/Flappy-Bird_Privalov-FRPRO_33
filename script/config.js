@@ -1,0 +1,36 @@
+
+class Config {
+    canvas = {
+        id: 'canvas',
+        width: 431,
+        height: 768,
+    }
+    
+
+    bird = {
+        // ширина и высота птицы
+        const size = [51, 36];
+        // координаты, по которым птица
+        // будет расположена на Canvas
+        x: canvas.width / 2 - size[0] / 2,
+        y: 300,
+        width: size[0],
+        height: size[1],
+        
+        //Скорость подлета при взмахе
+        flapSpeed = 300;
+
+        // изображение птицы, которое копируем
+        // из изображения-источника
+        frames: [
+            {
+            x: 432,
+            y: Math.floor((index % 9) / 3) * size[1],
+            width: size[0],
+            height: size[1],
+            }
+        ]
+    }
+}
+
+export default Config;

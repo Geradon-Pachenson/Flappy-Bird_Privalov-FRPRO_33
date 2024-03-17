@@ -1,4 +1,36 @@
-import Asset from "./Asset.js";
+import Config from "./config.js"
+import Bird from "./Bird.js"
+
+const spriteSheet = ...;
+const physicsEngine = ...;
+
+const bird = new Bird() {
+    x: config.bird.x,
+    y: config.bird.y,
+    width: config.bird.widht,
+    height: config.bird.height,
+    frames: config.bird.frames,
+    spriteSheet,
+    flapSpeed: config.bird.flapSpeed,
+    physicsEngine,
+    drawEngine,
+    game,
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//import Asset from "./Asset.js";
 
 
 class Main {
@@ -9,18 +41,16 @@ class Main {
     
 }
 
-const main = new Main();
+//const main = new Main();
 
-// const imgURL = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
+const imgURL = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 
-// // инициализируем canvas
-// const canvas = document.getElementById("canvas");
-// const ctx = canvas.getContext("2d");
 
-// // объект изображения с ресурсами, которые будем
-// // использовать для создания анимаций
-// const img = new Image();
-// img.src = imgURL;
+
+// объект изображения с ресурсами, которые будем
+// использовать для создания анимаций
+const img = new Image();
+img.src = imgURL;
 
 // константа для регулирования скорости анимации
 const SPEED = 3.1;

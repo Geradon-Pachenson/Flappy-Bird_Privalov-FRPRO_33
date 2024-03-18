@@ -1,4 +1,4 @@
-import Entity from "./base.js"
+//import Entity from "./base.js"
 
 class Bird extends Entity {
     constructor(params) {
@@ -37,4 +37,4 @@ class Bird extends Entity {
 
 
 
-export default Bird;
+//export default Bird;

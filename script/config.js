@@ -1,5 +1,9 @@
 
 class Config {
+    constructor() {
+        // ширина и высота птицы
+        this._size = [51, 36];
+    }
     gravity = 300;
 
 
@@ -16,14 +20,12 @@ class Config {
     }
 
     bird = {
-        // ширина и высота птицы
-        const size = [51, 36];
         // координаты, по которым птица
         // будет расположена на Canvas
-        x: canvas.width / 2 - size[0] / 2,
+        x: canvas.width / 2 - this._size[0] / 2,
         y: 300,
-        width: size[0],
-        height: size[1],
+        width: this._size[0],
+        height: this._size[1],
         
         //Скорость подлета при взмахе
         flapSpeed = 300;
@@ -41,4 +43,4 @@ class Config {
     }
 }
 
-export default Config;
+//export default Config;

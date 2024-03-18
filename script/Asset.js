@@ -17,4 +17,4 @@ class Asset {
 
 
 
-export default Asset;
+//export default Asset;

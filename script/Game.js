@@ -1,4 +1,4 @@
-import Config from "./config.js"
+//import Config from "./config.js"
 
 class Game {
     constructor() {
@@ -15,8 +15,19 @@ class Game {
 
         //Создаем загрузчик spriteSheet
         this._resourceLoader = new ResourceLoader();
-        this._physicsEngine = ...;
-        this._drawEngine = ...;
+
+        //Создаем физический движок, передаем в него гравитацию.
+        this._physicsEngine = new PhysicsEngine({ gravity: this._config.gravity });
+
+        //Создаем движок для рисования на canvas. Он принимает canvas
+        this._drawEngine = new CanvasDrawEngine({ canvas });
+
+        //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
+        this._inputHandler = new MouseInputHandler({
+            left: ({x, y}) => {
+                this._bird.flap();
+            }
+        })
 
         
         
@@ -36,7 +47,7 @@ async prepare() {
 reset() {
     //Обнуляем колличество очков
     this._score = 0;
-    this._bird = new Bird() {
+    this._bird = new Bird( {
             x: this._config.bird.x,
             y: this._config.bird.y,
             width: this._config.bird.widht,
@@ -47,7 +58,7 @@ reset() {
             physicsEngine: this._physicsEngine,
             drawEngine: this._drawEngine,
             game: this,
-        }
+        })
 }
 
 //Метод обновления сущностей при каждом такте
@@ -61,8 +72,8 @@ draw() {
     this._bird.draw();
 }
 
-//Метод запуска игры
-start() {
+//Метод цикла
+_loop() {
     //Получаем текущее время
     const now = Date.now();
     //Получаем дельту - разницу между текущим моментов времени и временем последнего обновления star = this._lastUpdate.
@@ -75,9 +86,19 @@ start() {
     this._drawEngine.clear();
     this.draw();
 
+    //Перезаписываем время последнего обновления на текущий момент
+    this._lastUpdate = now;
+
     //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
     //Также requestAnimationFrame передает в start текущее время вызова.
     requestAnimationFrame(this.start.bind(this))
+}
+
+//Метод запуска игры
+start() {
+    this._inputHandler.subscribe();
+    this._lastUpdate = Date.now();
+    this._loop();
 }
 
 //Метод окончания игры
@@ -85,4 +106,4 @@ gameOver() {
     alert(`Вы проиграли! Ваши очки: ${this._score}`);
 }
 
-export default Game;
+//export default Game;

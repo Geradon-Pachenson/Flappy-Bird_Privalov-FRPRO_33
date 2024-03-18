@@ -28,4 +28,4 @@ class ResourcesLoader {
     //Можно создать класс, который будет содержать все загруженные нами ресурсы,чтобы иметь возможность загрузить их все вместе
 }
 
-export default ResourcesLoader;
+//export default ResourcesLoader;

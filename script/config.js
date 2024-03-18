@@ -1,11 +1,19 @@
 
 class Config {
+    gravity = 300;
+
+
     canvas = {
         id: 'canvas',
         width: 431,
         height: 768,
     }
     
+    spriteSheet = {
+        widht: 606,
+        height: 428,
+        src: '../images/png/sprite.png'
+    }
 
     bird = {
         // ширина и высота птицы

@@ -21,7 +21,7 @@ class MouseInputHandler extends InputHandler {
     }
 
     eventHandlerMap = {
-        click(event) => {
+        click: (event) => {
             const buttonName = this.buttonIndexNameMap[event.button];
             const handler = this._eventHandlerConfig[buttonName];
             if(handler) {

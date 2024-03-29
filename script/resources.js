@@ -1,12 +1,12 @@
 //Тип загружаемых данных
-const RASOURCES_TYPE = {
+const RESOURCES_TYPE = {
     IMAGE: 'image',
 }
 class ResourcesLoader {
     _typeloadersMap = {
         //Изображение загружаем следующим образом. Принимаем сслыку, ширину и высоту изображения
-        [RASOURCES_TYPE.IMAGE]: async ({src, width, height}) => {
-            //Когда мы загрузили изображение мы можем зарезолвить Promise с данноыми этого изображения
+        [RESOURCES_TYPE.IMAGE]: async ({src, width, height}) => {
+            //Когда мы загрузили изображение мы можем зарезолвить Promise с данными этого изображения
             return new Promise((resolve, reject) => {
                 //Содаем объект изображения
                 const image = new Image(width, height);

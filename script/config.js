@@ -1,10 +1,16 @@
 
 class Config {
     constructor() {
-        // ширина и высота птицы
-        this._size = [51, 36];
     }
+    // ширина и высота птицы
+    _birdSize = [{
+        w: 51, 
+        y: 36
+    }];
     gravity = 300;
+    // переменная, необходимая для расчёта
+    // новых координат на каждом кадре
+    index = 0;
 
 
     canvas = {
@@ -14,18 +20,17 @@ class Config {
     }
     
     spriteSheet = {
-        widht: 606,
+        width: 606,
         height: 428,
         src: '../images/png/sprite.png'
     }
-
     bird = {
         // координаты, по которым птица
         // будет расположена на Canvas
-        x: canvas.width / 2 - this._size[0] / 2,
+        x: this.canvas.width / 2 - this._birdSize.w / 2,
         y: 300,
-        width: this._size[0],
-        height: this._size[1],
+        width: this._birdSize.w,
+        height: this._birdSize.y,
         
         //Скорость подлета при взмахе
         flapSpeed: 300,
@@ -35,9 +40,9 @@ class Config {
         frames: [
             {
             x: 432,
-            y: Math.floor((index % 9) / 3) * size[1],
-            width: size[0],
-            height: size[1],
+            y: Math.floor((this.index % 9) / 3) * this._birdSize.y,
+            width: this._birdSize.x,
+            height: this._birdSize.y,
             }
         ]
     }

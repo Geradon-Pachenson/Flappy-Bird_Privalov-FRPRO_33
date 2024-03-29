@@ -3,7 +3,7 @@ class Entity {
     constructor({ x, y, width, height, frames, spriteSheet, drawEngine, game }) {
         this.x = x;
         this.y = y;
-        this.widht = widht;
+        this.width = width;
         this.height = height;
         this.speed = 0;
         this.falling = false;
@@ -26,7 +26,7 @@ class Entity {
             image: this._frames[this._frameIndx], 
             x: this.x, 
             y: this.y, 
-            widht: this.widht, 
+            width: this.width, 
             height: this.height,
         });
     }

@@ -14,7 +14,7 @@ class Game {
         this.height = this._config.canvas.height;
 
         //Создаем загрузчик spriteSheet
-        this._resourceLoader = new ResourceLoader();
+        this._resourceLoader = new ResourcesLoader();
 
         //Создаем физический движок, передаем в него гравитацию.
         this._physicsEngine = new PhysicsEngine({ gravity: this._config.gravity });
@@ -32,78 +32,79 @@ class Game {
         
         
     }
-}
-//Асинхронный метод подготовки к игре
-async prepare() {
-    this._spriteSheet = this._resourceLoader.load({
-        type: RASOURCES_TYPE.IMAGE,
-        src: this._config.spriteSheet.src,
-        widht: this._config.spriteSheet.widht,
-        height: this._config.spriteSheet.height,
-    });
-}
 
-//Метод обновления состояния игры. Создаем наши сущности
-reset() {
-    //Обнуляем колличество очков
-    this._score = 0;
-    this._bird = new Bird( {
-            x: this._config.bird.x,
-            y: this._config.bird.y,
-            width: this._config.bird.widht,
-            height: this._config.bird.height,
-            frames: this._config.bird.frames,
-            spriteSheet: this._spriteSheet,
-            flapSpeed: this._config.bird.flapSpeed,
-            physicsEngine: this._physicsEngine,
-            drawEngine: this._drawEngine,
-            game: this,
+    //Асинхронный метод подготовки к игре
+    async prepare() {
+        this._spriteSheet = await this._resourceLoader.load({
+            type: RESOURCES_TYPE.IMAGE,
+            src: this._config.spriteSheet.src,
+            width: this._config.spriteSheet.width,
+            height: this._config.spriteSheet.height,
+
         })
+    }
+
+    //Метод обновления состояния игры. Создаем наши сущности
+    reset() {
+        //Обнуляем колличество очков
+        this._score = 0;
+        this._bird = new Bird( {
+                x: this._config.bird.x,
+                y: this._config.bird.y,
+                width: this._config.bird.widht,
+                height: this._config.bird.height,
+                frames: this._config.bird.frames,
+                spriteSheet: this._spriteSheet,
+                flapSpeed: this._config.bird.flapSpeed,
+                physicsEngine: this._physicsEngine,
+                drawEngine: this._drawEngine,
+                game: this,
+            })
+    }
+
+    //Метод обновления сущностей при каждом такте
+    update(delta) {
+        //Вызывем метод обновления птицы
+        this._bird.update(delta);
+    }
+
+    //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
+    draw() {
+        this._bird.draw();
+    }
+
+    //Метод цикла
+    _loop() {
+        //Получаем текущее время
+        const now = Date.now();
+        //Получаем дельту - разницу между текущим моментов времени и временем последнего обновления star = this._lastUpdate.
+        //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
+        //На дельту будем перемножать наше перемещения. Прокидываем ее в update() 
+        const delta = this._lastUpdate - now;
+        this.reset();
+        this.update(delta);
+        //Прежде чем отрисовывать, зачищаем предыдущие отрисовки
+        this._drawEngine.clear();
+        this.draw();
+
+        //Перезаписываем время последнего обновления на текущий момент
+        this._lastUpdate = now;
+
+        //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
+        //Также requestAnimationFrame передает в start текущее время вызова.
+        requestAnimationFrame(this.start.bind(this))
+    }
+
+    //Метод запуска игры
+    start() {
+        this._inputHandler.subscribe();
+        this._lastUpdate = Date.now();
+        this._loop();
+    }
+
+    //Метод окончания игры
+    gameOver() {
+        alert(`Вы проиграли! Ваши очки: ${this._score}`);
+    }
 }
-
-//Метод обновления сущностей при каждом такте
-update(delta) {
-    //Вызывем метод обновления птицы
-    this._bird.update(delta);
-}
-
-//Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
-draw() {
-    this._bird.draw();
-}
-
-//Метод цикла
-_loop() {
-    //Получаем текущее время
-    const now = Date.now();
-    //Получаем дельту - разницу между текущим моментов времени и временем последнего обновления star = this._lastUpdate.
-    //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
-    //На дельту будем перемножать наше перемещения. Прокидываем ее в update() 
-    const delta = this._lastUpdate - now;
-    this.reset();
-    this.update(delta);
-    //Прежде чем отрисовывать, зачищаем предыдущие отрисовки
-    this._drawEngine.clear();
-    this.draw();
-
-    //Перезаписываем время последнего обновления на текущий момент
-    this._lastUpdate = now;
-
-    //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
-    //Также requestAnimationFrame передает в start текущее время вызова.
-    requestAnimationFrame(this.start.bind(this))
-}
-
-//Метод запуска игры
-start() {
-    this._inputHandler.subscribe();
-    this._lastUpdate = Date.now();
-    this._loop();
-}
-
-//Метод окончания игры
-gameOver() {
-    alert(`Вы проиграли! Ваши очки: ${this._score}`);
-}
-
 //export default Game;

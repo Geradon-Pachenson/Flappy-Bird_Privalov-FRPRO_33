@@ -56,7 +56,7 @@ let index = 0;
 
 const render = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    index += 1.2;
+    index += 2.5;
     
     // // координата по оси Х фонового изображения
     // const backgroudX = -((index * SPEED) % canvas.width);

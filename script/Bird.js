@@ -1,15 +1,34 @@
-//import Entity from "./base.js"
+import Config from "./config.js"
 
-class Bird extends Entity {
-    constructor(params) {
-        super(params);
-        this._flapSpeed = params.flapSpeed;
-        //Движок, обработки логики физики
-        this._physicsEngine = params.physicsEngine;
-
-        this.falling = true;
+class Bird {
+    constructor(canvas) {
+        this.config = new Config();
+        this.canvas = document.getElementById("canvas");
+        this.ctx = canvas.getContext("2d");
+        console.log(this.ctx)
     }
-    
+    // рисуем птичку на канвасе
+    draw () {
+        this.ctx.drawImage(
+            this.config.bird.src,
+        
+            this.config.bird.frames.x,
+            this.config.bird.frames.y,
+            this.config.bird.frames.width,
+            this.config.bird.frames.height,
+        
+            this.config.bird.x,
+            this.config.bird.y,
+            this.config.bird.width,
+            this.config.bird.height
+        );
+    };
+
+
+
+
+
+
     //Метод обновления
     update(delta) {
         super.update(delta);
@@ -33,8 +52,4 @@ class Bird extends Entity {
 }
 
 
-
-
-
-
-//export default Bird;
+export default Bird;

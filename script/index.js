@@ -1,7 +1,7 @@
-//import Config from "./config.js"
-//import Bird from "./Bird.js"
+import Config from "./config.js"
+import Bird from "./Bird.js"
 
-// const game = new Game();
+
 // //Выполняем подготовку к игре и после подготовки запускаем игру
 // game.prepare().then(() => {
 //     game.start();
@@ -35,12 +35,12 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-
+const bird = new Bird(canvas, ctx);
 
 // объект изображения с ресурсами, которые будем
 // использовать для создания анимаций
 const birdImg = new Image();
-birdImg.src = "../images/png/bird3.png";
+// birdImg.src = "../images/png/bird3.png";
 
 const bgImg = new Image();
 bgImg.src = "../images/png//background.png";
@@ -58,7 +58,7 @@ let index = 0;
 
 const render = () => {
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    index += 1.2;
+    index += 2.2;
     
     // координата по оси Х фонового изображения
     const backgroudX = -((index * SPEED) % 1900);
@@ -120,39 +120,8 @@ const render = () => {
         bgPartTwoResult.height
     );
 
-    // изображение птицы, которое копируем
-    // из изображения-источника
-    const birdSource = {
-        x: Math.floor((index % 196) / 14) * 194,
-        y: 0,
-        width: 190,
-        height: 200,
-    };
-    console.log(birdSource.x);
-    let frame = 0;
-
-    // координаты, по которым птица
-    // будет расположена на Canvas
-    const birdResult = {
-        x: 150,
-        y: 300,
-        width: SIZE[0],
-        height: SIZE[1],
-    };
-    
-    ctx.drawImage(
-        birdImg,
-    
-        birdSource.x,
-        birdSource.y,
-        birdSource.width,
-        birdSource.height,
-    
-        birdResult.x,
-        birdResult.y,
-        birdResult.width,
-        birdResult.height
-    );
+    // запускаем функцию отрисовки птицы
+    bird.draw();
 
     // после завершения расчётов для текущего кадра
     // сразу запускаем выполнение расчётов для следующего 

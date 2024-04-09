@@ -1,24 +1,32 @@
 
 class Config {
     constructor() {
+        // объект изображения с ресурсами, которые будем
+        // использовать для создания анимаций
+        this.bgImg = new Image();
+
+        this.birdImg = new Image();
+        this.bgImg.src = "../images/png/bird3.png";
+
     }
-    // объект изображения с ресурсами, которые будем
-    // использовать для создания анимаций
-    birdImg = new Image();
+    canvas = {
+        id: 'canvas',
+        width: 450,
+        height: 700,
+    };
     
-     // объект изображения с ресурсами, которые будем
-    // использовать для создания анимаций
-    bgImg = new Image();
-    //bgImg.src = "../images/png//background.png";
+    
     // ширина и высота птицы
     _birdSize = [{
         w: 70, 
         y: 70,
     }];
     gravity = 300;
+
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
     index = 0;
+
     // константа для регулирования скорости анимации
     SPEED = 1.3;
 
@@ -30,14 +38,12 @@ class Config {
 
 
     bird = {
-        //адрес изображения птицы
-        src: "../images/png/bird3.png",
         // координаты, по которым птица
         // будет расположена на Canvas
-        x: canvas.width / 2 - this._birdSize.w,
+        x: this.canvas.width / 2 - this._birdSize.w,
         y: 300,
-        width: this._birdSize.w,
-        height: this._birdSize.y,
+        width: this._birdSize[0].w,
+        height: this._birdSize[0].y,
         
         //Скорость подлета при взмахе
         flapSpeed: 300,

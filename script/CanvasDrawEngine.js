@@ -1,20 +1,14 @@
 export default class CanvasDrawEngine {
-    constructor(params) {
-        this._config = params.config;
-        
-        this.canvas = document.getElementById('canvas');
-        this.ctx = this.canvas.getContext('2d');
+    constructor(context) {
+        this.context = context;
     }
+    
+    //функция очитски canvas
     clear() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    draw(img, x, y, width, height) {
-        this.ctx.drawImage(
-            img,
-            x,
-            y,
-            width,
-            height
-        );
+    //функция отрисовки на canvas
+    draw(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
+        this.context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     };
 }

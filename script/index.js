@@ -1,5 +1,8 @@
-import Config from "./config.js"
+// import Config from "./config.js"
+import Game from "./Game.js"
 import Bird from "./Bird.js"
+
+// const game = new Game();
 
 
 // //Выполняем подготовку к игре и после подготовки запускаем игру
@@ -8,39 +11,15 @@ import Bird from "./Bird.js"
 // })
 
 
-
-
-
-
-
-
-
-
-
-
-
-//import Asset from "./Asset.js";
-
-
-// class Main {
-//     constructor() {
-//         this.asset = new Asset();
-        
-//     }
-    
-// }
-
-//const main = new Main();
-
 const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const context = canvas.getContext("2d");
 
-const bird = new Bird(canvas, ctx);
+const bird = new Bird(context);
 
-// объект изображения с ресурсами, которые будем
-// использовать для создания анимаций
-const birdImg = new Image();
-// birdImg.src = "../images/png/bird3.png";
+// // объект изображения с ресурсами, которые будем
+// // использовать для создания анимаций
+// const birdImg = new Image();
+// // birdImg.src = "../images/png/bird3.png";
 
 const bgImg = new Image();
 bgImg.src = "../images/png//background.png";
@@ -91,7 +70,7 @@ const render = () => {
     };
 
     //функция отрисовки первой части фона
-    ctx.drawImage(
+    context.drawImage(
         bgImg,
     
         bgSource.x,
@@ -106,7 +85,7 @@ const render = () => {
     );
     
     //функция отрисовки второй части фона
-    ctx.drawImage(
+    context.drawImage(
         bgImg,
     
         bgSource.x,
@@ -133,4 +112,4 @@ const render = () => {
 //НЕ ЗАБЫТЬ ИЗМЕНИТЬ НА ЗАГРУЗКУ ВСЕХ ДАННЫХ ПОТОМ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 bgImg.onload = render;
 
-// export default Main;
+

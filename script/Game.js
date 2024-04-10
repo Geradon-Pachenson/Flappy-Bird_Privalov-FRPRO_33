@@ -1,8 +1,10 @@
-//import Config from "./config.js"
+import Config from "./config.js"
+import Bird from "./Bird.js"
 
 class Game {
     constructor() {
         this._config = new Config();
+        this.bird = new Bird();
         // инициализируем canvas, получаем его ширину и высоту из config
         this._canvas = document.getElementById(this._config.canvas.id);
         this._ctx = canvas.getContext("2d");
@@ -107,4 +109,5 @@ class Game {
         alert(`Вы проиграли! Ваши очки: ${this._score}`);
     }
 }
-//export default Game;
+
+export default Game;

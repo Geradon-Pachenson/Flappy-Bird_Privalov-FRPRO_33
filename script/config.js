@@ -1,14 +1,12 @@
 
 class Config {
-    constructor() {
-        // объект изображения с ресурсами, которые будем
-        // использовать для создания анимаций
-        this.bgImg = new Image();
-
-        this.birdImg = new Image();
-        this.bgImg.src = "../images/png/bird3.png";
-
+    constructor(index) {
+        this.index = index;
     }
+    // переменная, необходимая для расчёта
+    // новых координат на каждом кадре
+    
+
     canvas = {
         id: 'canvas',
         width: 450,
@@ -17,18 +15,17 @@ class Config {
     
     
     // ширина и высота птицы
-    _birdSize = [{
+    _birdSize = {
         w: 70, 
         y: 70,
-    }];
+    };
     gravity = 300;
-
-    // переменная, необходимая для расчёта
-    // новых координат на каждом кадре
-    index = 0;
 
     // константа для регулирования скорости анимации
     SPEED = 1.3;
+
+    // координата по оси Х фонового изображения
+    backgroudX = -((this.index * this.SPEED) % 1900);
 
     spriteSheet = {
         width: 606,
@@ -36,14 +33,47 @@ class Config {
         src: '../images/png/sprite.png'
     }
 
+    //Параметры фонового изображения
+    bg = {
+        url: "../images/png/background.png",
+        
+        // фон который хотим получить
+        // из изображения-источника
+        bgSource:  {
+            x: 0,
+            y: 300,
+            width: 1900,
+            height: this.canvas.height,
+        },
 
+        // фон, который хотим
+        // отобразить на Canvas
+        bgPartOneResult: {
+            x: this.backgroudX + 1900,
+            y: 0,
+            width: 1900,
+            height: this.canvas.height,
+        },
+
+        // вторая часть фонового изображения, которая
+        // идёт следом за первой
+        bgPartTwoResult: {
+            x: this.backgroudX,
+            y: 0,
+            width: 1900,
+            height: this.canvas.height,
+        },
+    }
+
+    //Параметры изображения птицы
     bird = {
+        url: "../images/png/bird3.png",
         // координаты, по которым птица
         // будет расположена на Canvas
         x: this.canvas.width / 2 - this._birdSize.w,
         y: 300,
-        width: this._birdSize[0].w,
-        height: this._birdSize[0].y,
+        width: this._birdSize.w,
+        height: this._birdSize.y,
         
         //Скорость подлета при взмахе
         flapSpeed: 300,

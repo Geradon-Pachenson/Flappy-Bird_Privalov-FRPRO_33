@@ -2,18 +2,21 @@ import Config from "./config.js"
 import CanvasDrawEngine from "./CanvasDrawEngine.js"
 
 class Bird {
-    constructor(context) {
-        this._drawEngine = new CanvasDrawEngine(this.context);
-        this.context = context;
-        this.config = new Config();
-
-        console.log(this._drawEngine.canvas);
-
+    constructor() {
+        this._drawEngine = new CanvasDrawEngine();
+        this.config = new Config(this.index);
+        this.index = 0;
+        
+        // объект изображения с ресурсами, которые будем
+        // использовать для создания анимаций
+        this.birdImg = new Image();
+        this.birdImg.src = this.config.bird.url;
     }
+
     // рисуем птичку на канвасе
     draw() {
-        this._drawEngine.draw (
-            this.config.bird.src,
+        this._drawEngine.draw(
+            this.birdImg,
         
             this.config.bird.frames[0].x,
             this.config.bird.frames[0].y,
@@ -25,7 +28,7 @@ class Bird {
             this.config.bird.width,
             this.config.bird.height
         )
-        
+        console.log(this.config.bird.frames[0].x);
     };
 
 

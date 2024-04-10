@@ -1,10 +1,5 @@
 
-class DrawEngine {
-    drawImage({spriteSheet, image, x, y, width, height}) {};
-    clear() {};
-}
-
-class CanvasDrawEngine extends DrawEngine {
+class CanvasDrawEngine {
     constructor({ canvas }) {
         super();
         this._canvas = canvas;

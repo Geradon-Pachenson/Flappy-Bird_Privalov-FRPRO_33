@@ -14,9 +14,8 @@ import CanvasDrawEngine from "./CanvasDrawEngine.js"
 
 
 
-let index = 0;
 const bird = new Bird();
-const config = new Config(index);
+const config = new Config();
 const bg = new Background();
 const drawEngine = new CanvasDrawEngine();
 
@@ -26,7 +25,7 @@ const SPEED = 1.3;
 
 const render = () => {
     drawEngine.clear();
-    index += 2.2;
+    config.increaseInd();
     
     // // координата по оси Х фонового изображения
     // const backgroudX = -((index * SPEED) % 1900);
@@ -67,6 +66,7 @@ const render = () => {
     // после завершения расчётов для текущего кадра
     // сразу запускаем выполнение расчётов для следующего 
     window.requestAnimationFrame(render);
+    console.log(config.index);
 };
 
 render();

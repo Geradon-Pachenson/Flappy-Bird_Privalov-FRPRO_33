@@ -5,7 +5,10 @@ class Config {
     }
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
-    
+    index = 0;
+    increaseInd() {
+        this.index += 2.2;
+    };
 
     canvas = {
         id: 'canvas',
@@ -80,14 +83,13 @@ class Config {
 
         // изображение птицы, которое копируем
         // из изображения-источника
-        frames: [
-            {
+        frames: {
             x: Math.floor((this.index % 196) / 14) * 194,
             y: 0,
             width: 190,
             height: 200,
-            }
-        ]
+        }
+        
     }
 
 }

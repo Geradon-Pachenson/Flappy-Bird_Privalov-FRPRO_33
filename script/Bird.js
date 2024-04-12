@@ -5,6 +5,7 @@ class Bird {
     constructor() {
         this._drawEngine = new CanvasDrawEngine();
         this.config = new Config();
+        this.config = new Config();
         
         // объект изображения с ресурсами, которые будем
         // использовать для создания анимаций
@@ -17,6 +18,10 @@ class Bird {
         this._drawEngine.draw(
             this.birdImg,
         
+            this.config.bird.frames.x,
+            this.config.bird.frames.y,
+            this.config.bird.frames.width,
+            this.config.bird.frames.height,
             this.config.bird.frames.x,
             this.config.bird.frames.y,
             this.config.bird.frames.width,

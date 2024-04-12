@@ -1,12 +1,14 @@
 
 class Config {
-    constructor(index) {
-        this.index = index;
+    constructor() {
+        
     }
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
     index = 0;
-    increaseInd() {
+
+    //Метод изменения index на определенное значение
+    increaseInd(index) {
         this.index += 2.2;
     };
 

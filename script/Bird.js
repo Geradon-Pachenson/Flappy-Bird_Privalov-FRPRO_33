@@ -14,15 +14,11 @@ class Bird {
     }
 
     // рисуем птичку на канвасе
-    draw() {
+    draw(frames) {
         this._drawEngine.draw(
             this.birdImg,
         
-            this.config.bird.frames.x,
-            this.config.bird.frames.y,
-            this.config.bird.frames.width,
-            this.config.bird.frames.height,
-            this.config.bird.frames.x,
+            frames.x,
             this.config.bird.frames.y,
             this.config.bird.frames.width,
             this.config.bird.frames.height,
@@ -32,7 +28,6 @@ class Bird {
             this.config.bird.width,
             this.config.bird.height
         )
-        console.log(this.config.bird.frames.x);
     };
 
 

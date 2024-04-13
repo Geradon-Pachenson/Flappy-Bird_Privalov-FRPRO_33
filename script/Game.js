@@ -2,6 +2,8 @@ import Config from "./config.js"
 import Bird from "./Bird.js"
 import Background from "./Background.js"
 import CanvasDrawEngine from "./CanvasDrawEngine.js"
+import MouseInputHandler from "./inputHandler.js"
+
 
 class Game {
     constructor() {
@@ -20,12 +22,12 @@ class Game {
         // //Создаем физический движок, передаем в него гравитацию.
         // this._physicsEngine = new PhysicsEngine({ gravity: this._config.gravity });
 
-        // //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
-        // this._inputHandler = new MouseInputHandler({
-        //     left: ({x, y}) => {
-        //         this._bird.flap();
-        //     }
-        // })
+        //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
+        this._inputHandler = new MouseInputHandler({
+            left: ({x, y}) => {
+                this._bird.flap();
+            }
+        })
     }
 
 
@@ -66,7 +68,7 @@ class Game {
     // }
 
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
-    draw() {
+    draw = () => {
         this._drawEngine.clear();
         this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
 
@@ -74,7 +76,7 @@ class Game {
         const backgroudX = -((this._config.index * this._config.SPEED) % 1900);
 
         const bgPartOneResult = {
-            x: backgroudX + 1900,
+            x: backgroudX + 1899,
         };
 
         // вторая часть фонового изображения, которая
@@ -83,11 +85,17 @@ class Game {
             x: backgroudX,
         };
 
+        // Пересчитываем координату по оси X птицы
+        // из изображения-источника
+        const frames = {
+            x: Math.floor((this._config.index % 196) / 14) * 194,
+        }
+
         // Запускаем функцию отрисовки фона
         this._bg.draw(bgPartOneResult, bgPartTwoResult);
 
         // Запускаем функцию отрисовки птицы
-        this._bird.draw();
+        this._bird.draw(frames);
 
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 

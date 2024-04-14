@@ -13,7 +13,7 @@ class InputHandler {
 }
 
 //классс управления мышью наследует класс InputHandler и переопределяет subscribe
-class MouseInputHandler extends InputHandler {
+export default class MouseInputHandler extends InputHandler {
     buttonIndexNameMap = {
         0: 'left',
         1: 'middle',

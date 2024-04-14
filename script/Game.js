@@ -11,6 +11,7 @@ class Game {
         this._bird = new Bird();
         this._bg = new Background();
         this._drawEngine = new CanvasDrawEngine();
+        this._inputHandler = new MouseInputHandler();
         
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
@@ -25,6 +26,7 @@ class Game {
         //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
         this._inputHandler = new MouseInputHandler({
             left: ({x, y}) => {
+                console.log('Левая');
                 this._bird.flap();
             }
         })

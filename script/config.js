@@ -24,10 +24,23 @@ class Config {
         w: 70, 
         y: 70,
     };
-    gravity = 300;
 
-    // константа для регулирования скорости анимации
+    // константы для физики птицы
+    gravity = 0.25;
     SPEED = 1.3;
+    jump = 0;
+
+    // задаём силу прыжка
+    flap() {
+        this.jump = -this.speed;
+    };
+
+    // определяем логику падения птички
+    fall() {
+        this.jump += this.gravity;
+        this.y += this.jump;
+        this.checkCollision(); // используем метод "checkCollision" для проверки столкновения
+    }
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);

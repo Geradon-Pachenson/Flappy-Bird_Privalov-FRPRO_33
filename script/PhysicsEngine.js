@@ -1,8 +1,9 @@
+import Config from "./config.js"
 
-
-class PhysicsEngine {
-    constructor({ gravity }) {
-        this._gravity = gravity;
+export default class PhysicsEngine {
+    constructor() {
+        this.config = new Config();
+        this._gravity = this.config.gravity;
     }
     //Метод апгрейда сущности с переданной дельтой
     update(entity, delta) {

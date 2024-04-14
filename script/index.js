@@ -13,9 +13,8 @@ import CanvasDrawEngine from "./CanvasDrawEngine.js"
 // })
 
 
-
-const bird = new Bird();
 const config = new Config();
+const bird = new Bird();
 const bg = new Background();
 const drawEngine = new CanvasDrawEngine();
 

@@ -90,7 +90,8 @@ class Config {
             y: 0,
             width: 190,
             height: 200,
-            }
+        }
+        
     }
 
 }

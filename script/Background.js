@@ -14,7 +14,7 @@ class Background {
     }
 
     // рисуем фоновое изображение на канвасе
-    draw() {
+    draw(bgPartOneResult, bgPartTwoResult) {
         //функция отрисовки первой части фона
         this._drawEngine.draw(
             this.bgImg,
@@ -24,7 +24,7 @@ class Background {
             this.config.bg.bgSource.width,
             this.config.bg.bgSource.height,
         
-            this.config.bg.bgPartOneResult.x,
+            bgPartOneResult.x,
             this.config.bg.bgPartOneResult.y,
             this.config.bg.bgPartOneResult.width,
             this.config.bg.bgPartOneResult.height,
@@ -39,11 +39,12 @@ class Background {
             this.config.bg.bgSource.width,
             this.config.bg.bgSource.height,
         
-            this.config.bg.bgPartTwoResult.x,
+            bgPartTwoResult.x,
             this.config.bg.bgPartTwoResult.y,
             this.config.bg.bgPartTwoResult.width,
             this.config.bg.bgPartTwoResult.height,
         )
+        console.log(this.config.bg.bgSource.x);
     }
 }
 

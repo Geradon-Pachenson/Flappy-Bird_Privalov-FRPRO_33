@@ -28,19 +28,7 @@ class Config {
     // константы для физики птицы
     gravity = 0.25;
     SPEED = 1.3;
-    jump = 0;
-
-    // задаём силу прыжка
-    flap() {
-        this.jump = -this.speed;
-    };
-
-    // определяем логику падения птички
-    fall() {
-        this.jump += this.gravity;
-        this.y += this.jump;
-        this.checkCollision(); // используем метод "checkCollision" для проверки столкновения
-    }
+    jump = 40;
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);
@@ -88,14 +76,13 @@ class Config {
         url: "../images/png/bird3.png",
         // координаты, по которым птица
         // будет расположена на Canvas
-        x: this.canvas.width / 2 - this._birdSize.w,
-        y: 300,
-        width: this._birdSize.w,
-        height: this._birdSize.y,
+        birdCoords: {
+            x: this.canvas.width / 2 - this._birdSize.w,
+            y: 300,
+            width: this._birdSize.w,
+            height: this._birdSize.y,
+        },
         
-        //Скорость подлета при взмахе
-        flapSpeed: 300,
-
         // изображение птицы, которое копируем
         // из изображения-источника
         frames: {

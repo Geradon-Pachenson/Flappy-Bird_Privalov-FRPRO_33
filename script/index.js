@@ -11,6 +11,7 @@ const game = new Game();
 
 
 const render = () => {
+    game.start();
     game.draw();
 };
 

@@ -44,7 +44,6 @@ class Background {
             this.config.bg.bgPartTwoResult.width,
             this.config.bg.bgPartTwoResult.height,
         )
-        console.log(this.config.bg.bgSource.x);
     }
 }
 

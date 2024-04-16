@@ -13,6 +13,7 @@ class Game {
         this._bg = new Background();
         this._drawEngine = new CanvasDrawEngine();
         this._physicsEngine = new PhysicsEngine();
+        
         this.x = this._config.bird.x;
         this.y = this._config.bird.y;
         
@@ -58,7 +59,7 @@ class Game {
     //             game: this,
     //         })
     // }
-
+    
     // //Метод обновления сущностей при каждом такте
     // update(delta) {
     //     //Вызывем метод обновления птицы
@@ -89,17 +90,16 @@ class Game {
             x: Math.floor((this._config.index % 196) / 14) * 194,
         }
 
-        // Пересчитываем координату по оси Y  отображения птицы на canvas
-        const birdY = this._config.bird.birdCoords.y;
+        //Пересчитываем координату по оси Y  отображения птицы на canvas
+        this._physicsEngine.updateBird();
         
-        this._physicsEngine.fall(birdY);
-        
-        console.log(birdY)
+        console.log(this._physicsEngine.y)
+        // this._bird.update();
         // Запускаем функцию отрисовки фона
         this._bg.draw(bgPartOneResult, bgPartTwoResult);
 
         // Запускаем функцию отрисовки птицы
-        this._bird.draw(frames, birdY);
+        this._bird.draw(frames, this._physicsEngine.y);
 
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 
@@ -131,7 +131,6 @@ class Game {
     //Метод запуска игры
     start() {
         this._lastUpdate = Date.now();
-        this._physicsEngine.updateBird()
         console.log(this._lastUpdate);
         // this._loop();
     }

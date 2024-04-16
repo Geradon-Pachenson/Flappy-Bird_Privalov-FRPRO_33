@@ -8,7 +8,7 @@ class Config {
     index = 0;
 
     //Метод изменения index на определенное значение
-    increaseInd(index) {
+    increaseInd() {
         this.index += 2.2;
     };
 
@@ -16,17 +16,18 @@ class Config {
         id: 'canvas',
         width: 450,
         height: 700,
+        land: 635,
     };
     
     
     // ширина и высота птицы
     _birdSize = {
         w: 70, 
-        y: 70,
+        h: 70,
     };
 
     // константы для физики птицы
-    gravity = 0.25;
+    gravity = 1.25;
     SPEED = 1.3;
     jump = 40;
 
@@ -80,7 +81,7 @@ class Config {
             x: this.canvas.width / 2 - this._birdSize.w,
             y: 300,
             width: this._birdSize.w,
-            height: this._birdSize.y,
+            height: this._birdSize.h,
         },
         
         // изображение птицы, которое копируем

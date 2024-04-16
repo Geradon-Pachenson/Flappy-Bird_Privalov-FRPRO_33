@@ -4,6 +4,8 @@ import MouseInputHandler from "./inputHandler.js"
 export default class PhysicsEngine {
     constructor() {
         this._config = new Config();
+        this.y = this._config.bird.birdCoords.y;
+        this.x = this._config.bird.birdCoords.x;
 
         //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
         this._inputHandler = new MouseInputHandler({
@@ -15,27 +17,36 @@ export default class PhysicsEngine {
     
 
     //Метод обновления состояния птицы
-    updateBird(y) {
-        this._inputHandler.subscribe();
-        this.fall(y);
-    }
-
-    //Метод подбрасывания птицы, минус потому что вверх по y 
-    flap(y) {
+    updateBird() {
         //Если птица достигает верха canvas, она больше не поднимается
-        if(y <= 0) {
-            y = 0;
+        //(так как анимация крыльев в верхнем положении выходит за предеы canvas,
+        //не 0 а чуть больше)
+        if(this.y < 12) {
+            this.y = 12;
         //Иначе подпрыгивает при нажатии на значение config.jump
         } else {
-            y -= this._config.jump;
-            console.log(y)
+            this._inputHandler.subscribe();
+            this.fall();
+            this.checkFalls(); 
         }
     }
 
+    //Метод подбрасывания птицы, минус потому что вверх по y 
+    flap() {
+        this.y -= this._config.jump;
+    }
+
     // определяем логику падения птички
-    fall(y) {
-        y = y + 20;
-        // this.y += this.jump;
-        // this.checkCollision(); // используем метод "checkCollision" для проверки столкновения
+    fall() {
+        return this.y += this._config.gravity;
+    }
+
+    // определяем логику столкновения птицы с землёй
+    checkFalls() {
+        if (this.y + this._config._birdSize.h >= this._config.canvas.land) {
+            this.y = this._config.canvas.land - this._config._birdSize.h;
+        console.log(`Здесь ${this.y + this._config._birdSize.h}`)
+            // SOUNDS.DIE.play();
+        }
     }
 }

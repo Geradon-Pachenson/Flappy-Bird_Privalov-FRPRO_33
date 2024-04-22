@@ -19,7 +19,15 @@ class Bird {
     }
 
     // рисуем птичку на канвасе
-    draw(frames, birdCoords) {
+    draw(frames, birdCoords, angle) {
+        this._drawEngine.save(); 
+        
+        //Смещаем координаты начала отрисовки птицы на нужное место
+        this._drawEngine.translate(this._config.bird.birdCoords.x, birdCoords);
+        
+        //Наклоняем птицу на нужный угол
+        this._drawEngine.rotate(angle);
+        
         this._drawEngine.draw(
             this.birdImg,
         
@@ -27,12 +35,14 @@ class Bird {
             this._config.bird.frames.y,
             this._config.bird.frames.width,
             this._config.bird.frames.height,
-        
-            this._config.bird.birdCoords.x,
-            birdCoords,
+            //из-за угла наклона отрисовку птицы начинаем на -(половину ее размера). Так при наклонах она не смещается по оси у.
+            -(this._config.bird.birdCoords.width  / 2),
+            -(this._config.bird.birdCoords.height / 2),
             this._config.bird.birdCoords.width,
-            this._config.bird.birdCoords.height
-        )
+            this._config.bird.birdCoords.height,
+        );
+
+        this._drawEngine.restore();
     };
 }
 

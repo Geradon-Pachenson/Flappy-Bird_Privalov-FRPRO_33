@@ -16,20 +16,21 @@ class Config {
         id: 'canvas',
         width: 450,
         height: 700,
-        land: 635,
+        land: 653,
     };
     
     
     // ширина и высота птицы
     _birdSize = {
-        w: 70, 
-        h: 70,
+        w: 50, 
+        h: 50,
     };
 
     // константы для физики птицы
-    gravity = 1.25;
-    SPEED = 1.3;
-    jump = 40;
+    gravity = 0.7;
+    SPEED = 0.7;
+    jump = 50;
+    delayJump = 400;
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);

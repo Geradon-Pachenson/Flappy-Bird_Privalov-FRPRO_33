@@ -21,8 +21,8 @@ export default class PhysicsEngine {
         //Если птица достигает верха canvas, она больше не поднимается
         //(так как анимация крыльев в верхнем положении выходит за предеы canvas,
         //не 0 а чуть больше)
-        if(this.y < 12) {
-            this.y = 12;
+        if(this.y < 0) {
+            this.y = 0;
         //Иначе подпрыгивает при нажатии на значение config.jump
         } else {
             this._inputHandler.subscribe();

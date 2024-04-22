@@ -28,21 +28,6 @@ export default class Pipe {
 
     draw() {
         for(let i = 0; i < this.pipe.length; i++) {
-            //Нижняя труба
-            this._drawEngine.draw(
-                this.pipeBottom,
-
-                this._config.pipe.pipeBottom.x,
-                this._config.pipe.pipeBottom.y,
-                this._config.pipe.pipeBottom.width,
-                this._config.pipe.pipeBottom.height,
-                
-                this.pipe[i].x, 
-                this.pipe[i].y + this.pipeUp.height + this.gap,
-                this._config.pipe.pipeBottom.width * 1.3,
-                this._config.pipe.pipeBottom.height
-            );
-
             //Верхняя труба
             this._drawEngine.draw(
                 this.pipeUp,
@@ -56,6 +41,21 @@ export default class Pipe {
                 this.pipe[i].y,
                 this._config.pipe.pipeUp.width * 1.3,
                 this._config.pipe.pipeUp.height
+            );
+            
+            //Нижняя труба
+            this._drawEngine.draw(
+                this.pipeBottom,
+
+                this._config.pipe.pipeBottom.x,
+                this._config.pipe.pipeBottom.y,
+                this._config.pipe.pipeBottom.width,
+                this._config.pipe.pipeBottom.height,
+                
+                this.pipe[i].x, 
+                this.pipe[i].y + this.pipeUp.height + this.gap,
+                this._config.pipe.pipeBottom.width * 1.3,
+                this._config.pipe.pipeBottom.height
             );
 
             this.pipe[i].x--;

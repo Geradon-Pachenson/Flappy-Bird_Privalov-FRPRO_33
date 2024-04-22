@@ -7,15 +7,19 @@ class Background {
         this._config = new Config();
         this.imgURL = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 
-        // объект изображения с ресурсами, которые будем
+        // объект изображения верхней части фонового изображения, которое будем
         // использовать для создания анимаций
         this.bgImg = new Image();
         this.bgImg.src = this._config.bg.url;
+        // объект изображения нижней части фонового изображения, которое будем
+        // использовать для создания анимаций
+        this.fgImg = new Image();
+        this.fgImg.src = this._config.fg.url;
     }
 
     // рисуем фоновое изображение на канвасе
-    draw(bgPartOneResult, bgPartTwoResult) {
-        //функция отрисовки первой части фона
+    drawBg(bgPartOneResult, bgPartTwoResult) {
+        //функция отрисовки первой верхней части фона
         this._drawEngine.draw(
             this.bgImg,
         
@@ -30,7 +34,7 @@ class Background {
             this._config.bg.bgPartOneResult.height,
         )
 
-        //функция отрисовки второй части фона
+        //функция отрисовки второй верхней части фона
         this._drawEngine.draw(
             this.bgImg,
         
@@ -43,6 +47,38 @@ class Background {
             this._config.bg.bgPartTwoResult.y,
             this._config.bg.bgPartTwoResult.width,
             this._config.bg.bgPartTwoResult.height,
+        )
+    }
+    // рисуем фоновое изображение на канвасе
+    drawFg(bgPartOneResult, bgPartTwoResult) {
+         //функция отрисовки первой нижней части фона
+        this._drawEngine.draw(
+            this.fgImg,
+        
+            this._config.fg.bgSource.x,
+            this._config.fg.bgSource.y,
+            this._config.fg.bgSource.width,
+            this._config.fg.bgSource.height,
+        
+            bgPartOneResult.x,
+            this._config.canvas.land,
+            this._config.fg.bgPartOneResult.width,
+            this._config.fg.bgSource.height,
+        )
+
+        //функция отрисовки второй нижней части фона
+        this._drawEngine.draw(
+            this.fgImg,
+        
+            this._config.fg.bgSource.x,
+            this._config.fg.bgSource.y,
+            this._config.fg.bgSource.width,
+            this._config.fg.bgSource.height,
+        
+            bgPartTwoResult.x,
+            this._config.canvas.land,
+            this._config.fg.bgPartTwoResult.width,
+            this._config.fg.bgSource.height,
         )
     }
 }

@@ -16,7 +16,7 @@ class Config {
         id: 'canvas',
         width: 450,
         height: 700,
-        land: 653,
+        land: 615,
     };
     
     
@@ -41,9 +41,9 @@ class Config {
         src: '../images/png/sprite.png'
     }
 
-    //Параметры фонового изображения
+    //Параметры верхней части фонового изображения
     bg = {
-        url: "../images/png/background.png",
+        url: "../images/png/bg.png",
         
         // фон который хотим получить
         // из изображения-источника
@@ -70,6 +70,38 @@ class Config {
             y: 0,
             width: 1900,
             height: this.canvas.height,
+        },
+    }
+
+    //Параметры нижней части фонового изображения
+    fg = {
+        url: "../images/png/fg.png",
+        
+        // фон который хотим получить
+        // из изображения-источника
+        bgSource:  {
+            x: 0,
+            y: 0,
+            width: 1900,
+            height: 163,
+        },
+
+        // фон, который хотим
+        // отобразить на Canvas
+        bgPartOneResult: {
+            x: this.backgroudX + 1900,
+            y: 0,
+            width: 1900,
+            height: 163,
+        },
+
+        // вторая часть фонового изображения, которая
+        // идёт следом за первой
+        bgPartTwoResult: {
+            x: this.backgroudX,
+            y: 0,
+            width: 1900,
+            height: 163,
         },
     }
 

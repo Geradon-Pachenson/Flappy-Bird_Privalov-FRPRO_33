@@ -95,14 +95,18 @@ class Game {
         //Пересчитываем координату по оси Y  отображения птицы на canvas
         this._physicsEngine.updateBird(this._physicsEngine.angle);
         
-        // Запускаем функцию отрисовки фона
-        this._bg.draw(bgPartOneResult, bgPartTwoResult);
+        // Запускаем функцию отрисовки верхней части фона
+        this._bg.drawBg(bgPartOneResult, bgPartTwoResult);
 
         // Запускаем функцию отрисовки птицы
         this._bird.draw(frames, this._physicsEngine.y, this._physicsEngine.angle);
 
         // Запускаем функцию отрисовки труб
         this._pipe.draw();
+
+        // Запускаем функцию отрисовки нижней части фона
+        this._bg.drawFg(bgPartOneResult, bgPartTwoResult);
+
         console.log(this._pipe.pipe[0].x)
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 

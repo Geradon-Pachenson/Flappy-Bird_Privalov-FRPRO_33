@@ -27,8 +27,8 @@ class Config {
     };
 
     // константы для физики птицы
-    gravity = 0.7;
-    SPEED = 0.7;
+    gravity = 2;
+    SPEED = 1.2;
     jump = 50;
     delayJump = 400;
 
@@ -96,6 +96,29 @@ class Config {
         
     }
 
+    //Параметры изображения труб
+    pipe = {
+        pipeBottomUrl: "../images/png/pipeBottom.png",
+        pipeUpUrl: "../images/png/pipeUp.png",
+        // изображение нижней трубы, которое копируем
+        // из изображения-источника 
+        pipeBottom: {
+            x: 0,
+            y: 0,
+            width: 52,
+            height: 400,
+        },
+        // изображение нижней трубы, которое копируем
+        // из изображения-источника
+        pipeUp: {
+            x: 0,
+            y: 0,
+            width: 52,
+            height: 400,
+        },
+        //Создаём расстояние между трубами
+        gap: 90,
+    }
 }
 
 export default Config;

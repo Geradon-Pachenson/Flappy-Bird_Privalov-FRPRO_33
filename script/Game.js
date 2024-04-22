@@ -1,6 +1,7 @@
 import Config from "./config.js"
 import Bird from "./Bird.js"
 import Background from "./Background.js"
+import Pipe from "./Pipe.js"
 import CanvasDrawEngine from "./CanvasDrawEngine.js"
 import PhysicsEngine from "./PhysicsEngine.js"
 import MouseInputHandler from "./inputHandler.js"
@@ -11,6 +12,7 @@ class Game {
         this._config = new Config();
         this._bird = new Bird();
         this._bg = new Background();
+        this._pipe = new Pipe();
         this._drawEngine = new CanvasDrawEngine();
         this._physicsEngine = new PhysicsEngine();
 
@@ -97,9 +99,11 @@ class Game {
         this._bg.draw(bgPartOneResult, bgPartTwoResult);
 
         // Запускаем функцию отрисовки птицы
-        
         this._bird.draw(frames, this._physicsEngine.y, this._physicsEngine.angle);
-        
+
+        // Запускаем функцию отрисовки труб
+        this._pipe.draw();
+        console.log(this._pipe.pipe[0].x)
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 
         window.requestAnimationFrame(this.draw);

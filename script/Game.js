@@ -13,10 +13,10 @@ class Game {
         this._bg = new Background();
         this._drawEngine = new CanvasDrawEngine();
         this._physicsEngine = new PhysicsEngine();
-        
+
         this.x = this._config.bird.x;
         this.y = this._config.bird.y;
-        
+
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
         this._height = this._config.canvas.height;
@@ -91,16 +91,15 @@ class Game {
         }
 
         //Пересчитываем координату по оси Y  отображения птицы на canvas
-        this._physicsEngine.updateBird();
+        this._physicsEngine.updateBird(this._physicsEngine.angle);
         
-        console.log(this._physicsEngine.y)
-        // this._bird.update();
         // Запускаем функцию отрисовки фона
         this._bg.draw(bgPartOneResult, bgPartTwoResult);
 
         // Запускаем функцию отрисовки птицы
-        this._bird.draw(frames, this._physicsEngine.y);
-
+        
+        this._bird.draw(frames, this._physicsEngine.y, this._physicsEngine.angle);
+        
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 
         window.requestAnimationFrame(this.draw);
@@ -110,7 +109,7 @@ class Game {
     // _loop() {
     //     //Получаем текущее время
     //     const now = Date.now();
-    //     //Получаем дельту - разницу между текущим моментов времени и временем последнего обновления start = this._lastUpdate.
+    //     //Получаем дельту - разницу между текущим моментом времени и временем последнего обновления start = this._lastUpdate.
     //     //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
     //     //На дельту будем перемножать наше перемещения. Прокидываем ее в update() 
     //     const delta = this._lastUpdate - now;
@@ -131,7 +130,6 @@ class Game {
     //Метод запуска игры
     start() {
         this._lastUpdate = Date.now();
-        console.log(this._lastUpdate);
         // this._loop();
     }
 

@@ -1,6 +1,6 @@
-import Config from "./config.js"
-import CanvasDrawEngine from "./CanvasDrawEngine.js"
-import PhysicsEngine from "./PhysicsEngine.js"
+import Config from "../config.js"
+import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
+import PhysicsEngine from "../Engine/PhysicsEngine.js"
 
 class Bird {
     constructor() {

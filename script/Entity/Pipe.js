@@ -1,6 +1,6 @@
-import Config from "./config.js"
-import CanvasDrawEngine from "./CanvasDrawEngine.js"
-import PhysicsEngine from "./PhysicsEngine.js"
+import Config from "../config.js"
+import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
+import PhysicsEngine from "../Engine/PhysicsEngine.js"
 
 export default class Pipe {
     constructor() {
@@ -20,7 +20,8 @@ export default class Pipe {
         this.pipe = [];
         this.pipe[0] = {
             x : this._config.canvas.width,
-            y : 0
+            //Первый промежуток посередине игры
+            y : -this._config.canvas.height / 3,
         }
     }
     
@@ -39,10 +40,9 @@ export default class Pipe {
 
                 this.pipe[i].x, 
                 this.pipe[i].y,
-                this._config.pipe.pipeUp.width * 1.3,
+                this._config.bird.birdCoords.width * 2, //ширина трубы вдвое больше ширины птицы,
                 this._config.pipe.pipeUp.height
             );
-            
             //Нижняя труба
             this._drawEngine.draw(
                 this.pipeBottom,
@@ -54,18 +54,19 @@ export default class Pipe {
                 
                 this.pipe[i].x, 
                 this.pipe[i].y + this.pipeUp.height + this.gap,
-                this._config.pipe.pipeBottom.width * 1.3,
+                this._config.bird.birdCoords.width * 2, //ширина трубы вдвое больше ширины птицы,
                 this._config.pipe.pipeBottom.height
             );
 
             this.pipe[i].x--;
-        
-            if(this.pipe[i].x == 125) {
+            //Расстояние между трубами равно ширине трех труб
+            if(this.pipe[i].x == this._config.canvas.width - this._config.bird.birdCoords.width * 8) {
                 this.pipe.push({
                 x : this._config.canvas.width,
-                y : Math.floor(Math.random() * this.pipeUp.height) - this.pipeUp.height
+                y : -this._physicsEngine.getRandomInt(90, 450),
                 });
             }
+            
         }
         //Условие очистки массива. Чтобы он не стремился к бесконечности.
         if (this.pipe.length > 3){

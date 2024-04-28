@@ -1,11 +1,10 @@
 import Config from "./config.js"
-import Bird from "./Bird.js"
-import Background from "./Background.js"
-import Pipe from "./Pipe.js"
-import CanvasDrawEngine from "./CanvasDrawEngine.js"
-import PhysicsEngine from "./PhysicsEngine.js"
-import MouseInputHandler from "./inputHandler.js"
-
+import Bird from "./Entity/Bird.js"
+import Background from "./Entity/Background.js"
+import Pipe from "./Entity/Pipe.js"
+import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
+import PhysicsEngine from "./Engine/PhysicsEngine.js"
+import Sounds from "./sounds.js"
 
 class Game {
     constructor() {
@@ -15,6 +14,7 @@ class Game {
         this._pipe = new Pipe();
         this._drawEngine = new CanvasDrawEngine();
         this._physicsEngine = new PhysicsEngine();
+        this._sounds = new Sounds();
 
         this.x = this._config.bird.x;
         this.y = this._config.bird.y;
@@ -107,7 +107,6 @@ class Game {
         // Запускаем функцию отрисовки нижней части фона
         this._bg.drawFg(bgPartOneResult, bgPartTwoResult);
 
-        console.log(this._pipe.pipe[0].x)
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 
         window.requestAnimationFrame(this.draw);
@@ -141,10 +140,10 @@ class Game {
         // this._loop();
     }
 
-    // //Метод окончания игры
-    // gameOver() {
-    //     alert(`Вы проиграли! Ваши очки: ${this._score}`);
-    // }
+    //Метод окончания игры
+    gameOver() {
+        alert(`Вы проиграли! Ваши очки: ${this._score}`);
+    }
 }
 
 export default Game;

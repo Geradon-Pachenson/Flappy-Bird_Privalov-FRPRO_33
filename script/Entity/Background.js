@@ -1,5 +1,5 @@
-import Config from "./config.js"
-import CanvasDrawEngine from "./CanvasDrawEngine.js"
+import Config from "../config.js"
+import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 
 class Background {
     constructor() {

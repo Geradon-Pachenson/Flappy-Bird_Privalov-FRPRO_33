@@ -17,8 +17,8 @@ export default class Pipe {
         
         //Создаём расстояние между трубами и сам массив труб
         this.gap = this._config.pipe.gap;
-        this.pipe = [];
-        this.pipe[0] = {
+        this.pipes = [];
+        this.pipes[0] = {
             x : this._config.canvas.width,
             //Первый промежуток посередине игры
             y : -this._config.canvas.height / 3,
@@ -28,7 +28,8 @@ export default class Pipe {
     
 
     draw() {
-        for(let i = 0; i < this.pipe.length; i++) {
+        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
+        for(let i = 0; i < this.pipes.length; i++) {
             //Верхняя труба
             this._drawEngine.draw(
                 this.pipeUp,
@@ -38,8 +39,8 @@ export default class Pipe {
                 this._config.pipe.pipeUp.width,
                 this._config.pipe.pipeUp.height,
 
-                this.pipe[i].x, 
-                this.pipe[i].y,
+                this.pipes[i].x, 
+                this.pipes[i].y,
                 this._config.bird.birdCoords.width * 2, //ширина трубы вдвое больше ширины птицы,
                 this._config.pipe.pipeUp.height
             );
@@ -52,16 +53,17 @@ export default class Pipe {
                 this._config.pipe.pipeBottom.width,
                 this._config.pipe.pipeBottom.height,
                 
-                this.pipe[i].x, 
-                this.pipe[i].y + this.pipeUp.height + this.gap,
+                this.pipes[i].x, 
+                this.pipes[i].y + this.pipeUp.height + this.gap,
                 this._config.bird.birdCoords.width * 2, //ширина трубы вдвое больше ширины птицы,
                 this._config.pipe.pipeBottom.height
             );
 
-            this.pipe[i].x--;
+            this.pipes[i].x--;
+            // console.log(this.pipes[i].x);
             //Расстояние между трубами равно ширине трех труб
-            if(this.pipe[i].x == this._config.canvas.width - this._config.bird.birdCoords.width * 8) {
-                this.pipe.push({
+            if(this.pipes[i].x == this._config.canvas.width - this._config.bird.birdCoords.width * 8) {
+                this.pipes.push({
                 x : this._config.canvas.width,
                 y : -this._physicsEngine.getRandomInt(90, 450),
                 });
@@ -69,8 +71,8 @@ export default class Pipe {
             
         }
         //Условие очистки массива. Чтобы он не стремился к бесконечности.
-        if (this.pipe.length > 3){
-            this.pipe.shift()
+        if (this.pipes.length > 3){
+            this.pipes.shift()
         }
     }
     

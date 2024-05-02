@@ -71,41 +71,18 @@ class Game {
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
     draw = () => {
         this._drawEngine.clear();
-        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
 
-        // Пересчитываем координату по оси X фонового изображения
-        const backgroudX = -((this._config.index * this._config.SPEED) % 1900);
-
-        const bgPartOneResult = {
-            x: backgroudX + 1899,
-        };
-
-        // вторая часть фонового изображения, которая
-        // идёт следом за первой
-        const bgPartTwoResult = {
-            x: backgroudX,
-        };
-
-        // Пересчитываем координату по оси X птицы
-        // из изображения-источника
-        const frames = {
-            x: Math.floor((this._config.index % 196) / 14) * 194,
-        }
-
-        //Пересчитываем координату по оси Y  отображения птицы на canvas
-        this._physicsEngine.updateBird(this._physicsEngine.angle);
-        
         // Запускаем функцию отрисовки верхней части фона
-        this._bg.drawBg(bgPartOneResult, bgPartTwoResult);
+        this._bg.drawBg();
 
         // Запускаем функцию отрисовки птицы
-        this._bird.draw(frames, this._physicsEngine.y, this._physicsEngine.angle);
+        this._bird.draw();
 
         // Запускаем функцию отрисовки труб
         this._pipe.draw();
 
         // Запускаем функцию отрисовки нижней части фона
-        this._bg.drawFg(bgPartOneResult, bgPartTwoResult);
+        this._bg.drawFg();
 
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 

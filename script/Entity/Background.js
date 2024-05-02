@@ -18,7 +18,11 @@ class Background {
     }
 
     // рисуем фоновое изображение на канвасе
-    drawBg(bgPartOneResult, bgPartTwoResult) {
+    drawBg() {
+        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре// Пересчитываем координату по оси X фонового изображения
+        // Пересчитываем координату по оси X фонового изображения. % 1900 - зацикливаем
+        this.backgroudX = Math.floor(-(this._config.index * this._config.SPEED) % 1900);
+
         //функция отрисовки первой верхней части фона
         this._drawEngine.draw(
             this.bgImg,
@@ -28,7 +32,7 @@ class Background {
             this._config.bg.bgSource.width,
             this._config.bg.bgSource.height,
         
-            bgPartOneResult.x,
+            this.backgroudX + 1899,
             this._config.bg.bgPartOneResult.y,
             this._config.bg.bgPartOneResult.width,
             this._config.bg.bgPartOneResult.height,
@@ -43,14 +47,16 @@ class Background {
             this._config.bg.bgSource.width,
             this._config.bg.bgSource.height,
         
-            bgPartTwoResult.x,
+            this.backgroudX,
             this._config.bg.bgPartTwoResult.y,
             this._config.bg.bgPartTwoResult.width,
             this._config.bg.bgPartTwoResult.height,
         )
     }
     // рисуем фоновое изображение на канвасе
-    drawFg(bgPartOneResult, bgPartTwoResult) {
+    drawFg() {
+        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
+
          //функция отрисовки первой нижней части фона
         this._drawEngine.draw(
             this.fgImg,
@@ -60,7 +66,7 @@ class Background {
             this._config.fg.bgSource.width,
             this._config.fg.bgSource.height,
         
-            bgPartOneResult.x,
+            this.backgroudX + 1899,
             this._config.canvas.land,
             this._config.fg.bgPartOneResult.width,
             this._config.fg.bgSource.height,
@@ -75,7 +81,7 @@ class Background {
             this._config.fg.bgSource.width,
             this._config.fg.bgSource.height,
         
-            bgPartTwoResult.x,
+            this.backgroudX,
             this._config.canvas.land,
             this._config.fg.bgPartTwoResult.width,
             this._config.fg.bgSource.height,

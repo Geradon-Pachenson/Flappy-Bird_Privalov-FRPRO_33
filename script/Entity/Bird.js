@@ -16,22 +16,29 @@ class Bird {
 
     update() {
         this._physicsEngine.fall(this);
+        //Пересчитываем координату по оси Y  отображения птицы на canvas
+        this._physicsEngine.updateBird(this._physicsEngine.angle);
     }
 
     // рисуем птичку на канвасе
-    draw(frames, birdCoords, angle) {
+    draw() {
+        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
+
+
         this._drawEngine.save(); 
-        
+        this.update();
         //Смещаем координаты начала отрисовки птицы на нужное место
-        this._drawEngine.translate(this._config.bird.birdCoords.x, birdCoords);
+        this._drawEngine.translate(this._config.bird.birdCoords.x, this._physicsEngine.y);
         
         //Наклоняем птицу на нужный угол
-        this._drawEngine.rotate(angle);
+        this._drawEngine.rotate(this._physicsEngine.angle);
         
         this._drawEngine.draw(
             this.birdImg,
         
-            frames.x,
+            // Пересчитываем координату по оси X птицы
+            // из изображения-источника
+            Math.floor((this._config.index % 196) / 14) * 194,
             this._config.bird.frames.y,
             this._config.bird.frames.width,
             this._config.bird.frames.height,

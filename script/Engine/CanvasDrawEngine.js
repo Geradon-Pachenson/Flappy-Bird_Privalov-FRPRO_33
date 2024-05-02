@@ -25,7 +25,7 @@ export default class CanvasDrawEngine {
         this._context.rotate(rotation);
     }
 
-    //функция загрузки текущим параметров canvas
+    //функция загрузки текущиx параметров canvas
     restore() {
         this._context.restore();
     }

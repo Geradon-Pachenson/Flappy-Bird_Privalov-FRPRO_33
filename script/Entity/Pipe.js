@@ -28,7 +28,6 @@ export default class Pipe {
     
 
     draw() {
-        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре
         for(let i = 0; i < this.pipes.length; i++) {
             //Верхняя труба
             this._drawEngine.draw(
@@ -59,16 +58,15 @@ export default class Pipe {
                 this._config.pipe.pipeBottom.height
             );
 
-            this.pipes[i].x--;
-            // console.log(this.pipes[i].x);
-            //Расстояние между трубами равно ширине трех труб
-            if(this.pipes[i].x == this._config.canvas.width - this._config.bird.birdCoords.width * 8) {
+            this.pipes[i].x -= this._config.SPEED;
+
+            //Расстояние между трубами равно ширине трех труб (через каждые четыре ширины трубы или восемь птиц)
+            if (this.pipes[this.pipes.length - 1].x <= this._config.canvas.width - this._config.bird.birdCoords.width * 8) {
                 this.pipes.push({
                 x : this._config.canvas.width,
                 y : -this._physicsEngine.getRandomInt(90, 450),
                 });
             }
-            
         }
         //Условие очистки массива. Чтобы он не стремился к бесконечности.
         if (this.pipes.length > 3){

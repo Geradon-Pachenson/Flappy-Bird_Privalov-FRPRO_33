@@ -2,13 +2,20 @@ class Config {
     constructor() {
         
     }
+    // Текущее состояния игры
+    state = {
+        current: 0,
+        getReady: 0,
+        game: 1,
+        over: 2
+    }
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
     index = 0;
 
     //Метод изменения index на определенное значение
     increaseInd() {
-        this.index += 2;
+        this.index += 2.2;
     };
 
     canvas = {
@@ -27,8 +34,8 @@ class Config {
     };
 
     // константы для физики птицы
-    gravity = 1;
-    SPEED = 1;
+    gravity = 1.5;
+    SPEED = 3;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
     delayJump = 400;
 

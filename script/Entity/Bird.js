@@ -1,12 +1,14 @@
 import Config from "../config.js"
 import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "../Engine/PhysicsEngine.js"
+import Pipe from "./Pipe.js"
 
 class Bird {
     constructor() {
         this._drawEngine = new CanvasDrawEngine();
         this._config = new Config();
         this._physicsEngine = new PhysicsEngine();
+        this._pipe = new Pipe();
         
         // объект изображения с ресурсами, которые будем
         // использовать для создания анимаций
@@ -18,6 +20,7 @@ class Bird {
         this._physicsEngine.fall(this);
         //Пересчитываем координату по оси Y  отображения птицы на canvas
         this._physicsEngine.updateBird(this._physicsEngine.angle);
+        this.checkFalls();
     }
 
     // рисуем птичку на канвасе
@@ -51,6 +54,18 @@ class Bird {
 
         this._drawEngine.restore();
     };
+
+    // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+    checkFalls() {
+        console.log(this._pipe.pipes[0].x);
+        if ((this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land) || 
+            (this._physicsEngine.x >= this._pipe.pipes[0].x &&  this._physicsEngine.y >= this._pipe.pipes[0].x)) {
+            console.log('Game Over');
+            this._physicsEngine.y = this._config.canvas.land - this._config.bird.birdCoords.height / 2.3;
+            // SOUNDS.DIE.play();
+        }
+        
+    }
 }
 
 

@@ -15,14 +15,13 @@ class Background {
         // использовать для создания анимаций
         this.fgImg = new Image();
         this.fgImg.src = this._config.fg.url;
+        this.backgroudX = 0;
     }
 
     // рисуем фоновое изображение на канвасе
     drawBg() {
-        this._config.increaseInd(); // Увеличиваем индекс на каждом кадре// Пересчитываем координату по оси X фонового изображения
         // Пересчитываем координату по оси X фонового изображения. % 1900 - зацикливаем
-        this.backgroudX = Math.floor(-(this._config.index * this._config.SPEED) % 1900);
-
+        this.backgroudX = (this.backgroudX - this._config.SPEED) % 1900;
         //функция отрисовки первой верхней части фона
         this._drawEngine.draw(
             this.bgImg,

@@ -16,9 +16,6 @@ class Game {
         this._physicsEngine = new PhysicsEngine();
         this._sounds = new Sounds();
 
-        this.x = this._config.bird.x;
-        this.y = this._config.bird.y;
-
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
         this._height = this._config.canvas.height;
@@ -84,9 +81,12 @@ class Game {
         // Запускаем функцию отрисовки нижней части фона
         this._bg.drawFg();
 
+         // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+        this.checkFalls();
+
         // После завершения расчётов для текущего кадра
         // сразу запускаем выполнение расчётов для следующего 
-        window.requestAnimationFrame(this.draw);
+        this.request = window.requestAnimationFrame(this.draw);
     }
 
     // //Метод цикла
@@ -111,6 +111,29 @@ class Game {
     //     requestAnimationFrame(this.start.bind(this))
     // }
 
+     // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+    checkFalls() {
+        //Определяем края труб для создания логики столкновения
+        const pipeLeftEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.pipe.padding;
+        const pipeRightEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.bird.birdCoords.width * 2 - this._config.pipe.padding;
+        const pipeUpBottomEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height - this._config.pipe.padding;
+        const pipeDownTopEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height + this._pipe.gap + this._config.pipe.padding;
+
+        //Определяем края птицы для создания логики столкновения
+        const birdLeftEdge = this._physicsEngine.x;
+        const birdRightEdge = this._physicsEngine.x + this._config.bird.birdCoords.width;
+        const birdTopEdge = this._bird.y;
+        const birdBottomEdge = this._bird.y + this._config.bird.birdCoords.height;
+
+        if ((birdBottomEdge >= this._config.canvas.land) ||  // падение на землю
+            ((birdRightEdge >= pipeLeftEdge) && //столкновение с трубами
+            (birdLeftEdge <= pipeRightEdge) && 
+            (birdTopEdge <= pipeUpBottomEdge || birdBottomEdge >= pipeDownTopEdge))) {
+            // window.cancelAnimationFrame(this.request);
+            this.gameOver();
+        }
+    }
+
     //Метод запуска игры
     start() {
         this._lastUpdate = Date.now();
@@ -120,6 +143,8 @@ class Game {
     //Метод окончания игры
     gameOver() {
         alert(`Вы проиграли! Ваши очки: ${this._score}`);
+        //Проигрываем звук крушения
+            this._sounds.crashMp3.play();
     }
 }
 

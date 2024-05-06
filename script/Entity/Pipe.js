@@ -72,14 +72,25 @@ export default class Pipe {
         if (this.pipes.length > 3){
             this.pipes.shift()
         }
-        this.checkFalls();
     }
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
-    checkFalls() {
-        // if ((this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land) || // падение на землю
-        if (this._physicsEngine.x >= this.pipes[0].x && this._physicsEngine.y >= (this.pipes[0].y + this.pipeUp.height) && (this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3) <= (this.pipes[0].y + this.pipeUp.height + this.gap)) { /// пролет в промежутке труб 
-            
-        } else {
+    checkFalls(bird) {
+         //Определяем края труб для создания логики столкновения
+        const pipeLeftEdge = this.pipes[this.pipes.length - 1].x;
+        const pipeRightEdge = this.pipes[this.pipes.length - 1].x + this._config.bird.birdCoords.width * 2;
+        const pipeUpBottomEdge = this.pipes[this.pipes.length - 1].y + this._config.pipe.pipeBottom.height;
+        const pipeDownTopEdge = this.pipes[this.pipes.length - 1].y + this._config.pipe.pipeBottom.height + this.gap;
+
+        //Определяем края птицы для создания логики столкновения
+        const birdLeftEdge = bird.x;
+        const birdRightEdge = bird.x + this._config.bird.birdCoords.width;
+        const birdTopEdge = bird.y;
+        const birdBottomEdge = bird.y + this._config.bird.birdCoords.height;
+        console.log(pipeRightEdge);
+        if ((birdBottomEdge >= this._config.canvas.land) ||  // падение на землю
+            ((birdRightEdge >= pipeLeftEdge) && 
+            (birdLeftEdge <= pipeRightEdge) && 
+            (birdTopEdge <= pipeUpBottomEdge || birdBottomEdge >= pipeDownTopEdge))) {
             console.log('Game Over');
             // SOUNDS.DIE.play();
         }

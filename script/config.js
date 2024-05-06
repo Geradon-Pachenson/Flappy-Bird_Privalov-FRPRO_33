@@ -15,7 +15,7 @@ class Config {
 
     //Метод изменения index на определенное значение
     increaseInd() {
-        this.index += 2.2;
+        this.index += 1;
     };
 
     canvas = {
@@ -34,8 +34,8 @@ class Config {
     };
 
     // константы для физики птицы
-    gravity = 1.5;
-    SPEED = 3;
+    gravity = 1;
+    SPEED = 1;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
     delayJump = 400;
 
@@ -131,8 +131,7 @@ class Config {
             y: 0,
             width: 190,
             height: 200,
-        }
-        
+        },
     }
 
     //Параметры изображения труб
@@ -157,6 +156,8 @@ class Config {
         },
         //Создаём расстояние между трубами равное 25% высоты трубы
         gap: this.canvas.land * 0.25, 
+
+        padding: 33,
     }
 
     //Звуковые файлы

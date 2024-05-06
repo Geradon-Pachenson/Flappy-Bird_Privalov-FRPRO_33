@@ -1,23 +1,22 @@
 import Config from "../config.js"
 import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "../Engine/PhysicsEngine.js"
-import Pipe from "./Pipe.js"
 
 class Bird {
     constructor() {
         this._drawEngine = new CanvasDrawEngine();
         this._config = new Config();
         this._physicsEngine = new PhysicsEngine();
-        this._pipe = new Pipe();
         
         // объект изображения с ресурсами, которые будем
         // использовать для создания анимаций
         this.birdImg = new Image();
         this.birdImg.src = this._config.bird.url;
+
     }
 
     update() {
-        this._physicsEngine.fall(this);
+        this._physicsEngine.fall();
         //Пересчитываем координату по оси Y  отображения птицы на canvas
         this._physicsEngine.updateBird(this._physicsEngine.angle);
     }
@@ -29,8 +28,9 @@ class Bird {
 
         this._drawEngine.save(); 
         this.update();
+        this.y = this._physicsEngine.y;
         //Смещаем координаты начала отрисовки птицы на нужное место
-        this._drawEngine.translate(this._config.bird.birdCoords.x, this._physicsEngine.y);
+        this._drawEngine.translate(this._config.bird.birdCoords.x, this.y);
         
         //Наклоняем птицу на нужный угол
         this._drawEngine.rotate(this._physicsEngine.angle);

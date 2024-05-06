@@ -66,17 +66,6 @@ export default class PhysicsEngine {
         this.y += this._config.gravity;
     }
 
-    // // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
-    // checkFalls() {
-    //     if (this.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land || (this.x >= this._pipe.this.pipes[0].x &&  this.y >= this._pipe.this.pipes[0].x)) {
-    //         console.log('Проигрышь')
-    //         // this.y = this._config.canvas.land - this._config.bird.birdCoords.height / 2.3;
-    //         // SOUNDS.DIE.play();
-    //     }
-        
-    // }
-
-
     //Получение случайного целого числа в заданном интервале для координаты Y труб
     getRandomInt(min, max) {
         min = Math.ceil(min);

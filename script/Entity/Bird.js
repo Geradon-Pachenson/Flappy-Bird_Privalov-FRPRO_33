@@ -20,7 +20,6 @@ class Bird {
         this._physicsEngine.fall(this);
         //Пересчитываем координату по оси Y  отображения птицы на canvas
         this._physicsEngine.updateBird(this._physicsEngine.angle);
-        this.checkFalls();
     }
 
     // рисуем птичку на канвасе
@@ -55,17 +54,7 @@ class Bird {
         this._drawEngine.restore();
     };
 
-    // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
-    checkFalls() {
-        console.log(this._pipe.pipes[0].x);
-        if ((this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land) || 
-            (this._physicsEngine.x >= this._pipe.pipes[0].x &&  this._physicsEngine.y >= this._pipe.pipes[0].x)) { //ТУТ НЕПРАВЛЬНО!!!!!!!!!!!!!!!!!!!!!!!
-            console.log('Game Over');
-            this._physicsEngine.y = this._config.canvas.land - this._config.bird.birdCoords.height / 2.3;
-            // SOUNDS.DIE.play();
-        }
-        
-    }
+    
 }
 
 

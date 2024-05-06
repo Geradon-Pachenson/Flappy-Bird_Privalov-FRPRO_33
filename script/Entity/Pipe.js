@@ -72,6 +72,17 @@ export default class Pipe {
         if (this.pipes.length > 3){
             this.pipes.shift()
         }
+        this.checkFalls();
     }
-    
+     // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+    checkFalls() {
+        // if ((this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land) || // падение на землю
+        if (this._physicsEngine.x >= this.pipes[0].x && this._physicsEngine.y >= (this.pipes[0].y + this.pipeUp.height) && (this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3) <= (this.pipes[0].y + this.pipeUp.height + this.gap)) { /// пролет в промежутке труб 
+            
+        } else {
+            console.log('Game Over');
+            // SOUNDS.DIE.play();
+        }
+        
+    }
 }

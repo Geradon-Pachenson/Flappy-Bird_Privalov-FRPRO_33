@@ -59,7 +59,7 @@ class Bird {
     checkFalls() {
         console.log(this._pipe.pipes[0].x);
         if ((this._physicsEngine.y + this._config.bird.birdCoords.height / 2.3 >= this._config.canvas.land) || 
-            (this._physicsEngine.x >= this._pipe.pipes[0].x &&  this._physicsEngine.y >= this._pipe.pipes[0].x)) {
+            (this._physicsEngine.x >= this._pipe.pipes[0].x &&  this._physicsEngine.y >= this._pipe.pipes[0].x)) { //ТУТ НЕПРАВЛЬНО!!!!!!!!!!!!!!!!!!!!!!!
             console.log('Game Over');
             this._physicsEngine.y = this._config.canvas.land - this._config.bird.birdCoords.height / 2.3;
             // SOUNDS.DIE.play();

@@ -20,6 +20,7 @@ class Game {
         this._width = this._config.canvas.width;
         this._height = this._config.canvas.height;
 
+        this.request = 0;
         // //Создаем загрузчик spriteSheet
         // this._resourceLoader = new ResourcesLoader();
 
@@ -115,8 +116,8 @@ class Game {
     checkFalls() {
         //Определяем края труб для создания логики столкновения
         const pipeLeftEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.pipe.padding;
-        const pipeRightEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.bird.birdCoords.width * 2 - this._config.pipe.padding;
-        const pipeUpBottomEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height - this._config.pipe.padding;
+        const pipeRightEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.bird.birdCoords.width * 2 + this._config.pipe.padding;
+        const pipeUpBottomEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height;
         const pipeDownTopEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height + this._pipe.gap + this._config.pipe.padding;
 
         //Определяем края птицы для создания логики столкновения
@@ -125,7 +126,7 @@ class Game {
         const birdTopEdge = this._bird.y;
         const birdBottomEdge = this._bird.y + this._config.bird.birdCoords.height;
 
-        if ((birdBottomEdge >= this._config.canvas.land) ||  // падение на землю
+        if ((birdBottomEdge >= this._config.canvas.land + this._config.pipe.padding) ||  // падение на землю
             ((birdRightEdge >= pipeLeftEdge) && //столкновение с трубами
             (birdLeftEdge <= pipeRightEdge) && 
             (birdTopEdge <= pipeUpBottomEdge || birdBottomEdge >= pipeDownTopEdge))) {
@@ -142,9 +143,10 @@ class Game {
 
     //Метод окончания игры
     gameOver() {
-        alert(`Вы проиграли! Ваши очки: ${this._score}`);
+        // alert(`Вы проиграли! Ваши очки: ${this._score}`);
+        cancelAnimationFrame(this.request);
         //Проигрываем звук крушения
-            this._sounds.crashMp3.play();
+        this._sounds.crashMp3.play();
     }
 }
 

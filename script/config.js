@@ -2,13 +2,18 @@ class Config {
     constructor() {
         
     }
-    // Текущее состояния игры
-    state = {
-        current: 0,
-        getReady: 0,
-        game: 1,
-        over: 2
-    }
+
+    frameRate = 60; // Желаемая частота кадров (FPS)
+    frameDelay = 1000 / this.frameRate; // Задержка между кадрами в миллисекундах
+
+    // // Текущее состояния игры
+    // state = {
+    //     current: 0,
+    //     getReady: 0,
+    //     game: 1,
+    //     over: 2
+    // }
+
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
     index = 0;

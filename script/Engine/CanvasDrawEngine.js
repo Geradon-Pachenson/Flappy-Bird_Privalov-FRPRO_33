@@ -34,4 +34,5 @@ export default class CanvasDrawEngine {
     draw(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
         this._context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     };
+    
 }

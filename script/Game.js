@@ -5,6 +5,7 @@ import Pipe from "./Entity/Pipe.js"
 import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "./Engine/PhysicsEngine.js"
 import Sounds from "./sounds.js"
+import Score from "./score.js"
 
 class Game {
     constructor() {
@@ -15,18 +16,17 @@ class Game {
         this._drawEngine = new CanvasDrawEngine();
         this._physicsEngine = new PhysicsEngine();
         this._sounds = new Sounds();
+        this._score = new Score();
 
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
         this._height = this._config.canvas.height;
 
-        this.request = 0;
         // //Создаем загрузчик spriteSheet
         // this._resourceLoader = new ResourcesLoader();
 
-        // //Создаем физический движок, передаем в него гравитацию.
-        // this._physicsEngine = new PhysicsEngine({ gravity: this._config.gravity });
-
+        this.start();
+        
     }
 
 
@@ -60,57 +60,54 @@ class Game {
     //         })
     // }
     
-    // //Метод обновления сущностей при каждом такте
-    // update(delta) {
-    //     //Вызывем метод обновления птицы
-    //     this._bird.update(delta);
-    // }
 
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
     draw = () => {
-        this._drawEngine.clear();
-
         // Запускаем функцию отрисовки верхней части фона
-        this._bg.drawBg();
+        this._bg.drawBg(this._config.state);
 
         // Запускаем функцию отрисовки птицы
         this._bird.draw();
 
         // Запускаем функцию отрисовки труб
-        this._pipe.draw();
+        this._pipe.draw(this._config.state);
 
         // Запускаем функцию отрисовки нижней части фона
-        this._bg.drawFg();
+        this._bg.drawFg(this._config.state);
+
+        // Запускаем функцию отрисовки и подсчета очков
+        this._score.draw(this._config.state);
 
          // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
         this.checkFalls();
-
-        // После завершения расчётов для текущего кадра
-        // сразу запускаем выполнение расчётов для следующего 
-        this.request = window.requestAnimationFrame(this.draw);
     }
 
-    // //Метод цикла
-    // _loop() {
-    //     //Получаем текущее время
-    //     const now = Date.now();
-    //     //Получаем дельту - разницу между текущим моментом времени и временем последнего обновления start = this._lastUpdate.
-    //     //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
-    //     //На дельту будем перемножать наше перемещения. Прокидываем ее в update() 
-    //     const delta = this._lastUpdate - now;
-    //     this.reset();
-    //     this.update(delta);
-    //     //Прежде чем отрисовывать, зачищаем предыдущие отрисовки
-    //     this._drawEngine.clear();
-    //     this.draw();
+    //Метод цикла
+    _loop = () => {
+        //Получаем текущее время
+        const now = Date.now();
+        //Получаем дельту - разницу между текущим моментом времени и временем последнего обновления start = this._lastUpdate.
+        //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
+        const delta = now - this._lastUpdate;
 
-    //     //Перезаписываем время последнего обновления на текущий момент
-    //     this._lastUpdate = now;
+        if (delta < this._config.frameDelay) {
+        // Если прошло меньше времени, чем задержка между кадрами, ждем оставшееся время
+            setTimeout(this._loop, this._config.frameDelay - delta);
+            return;
+        }
+        
+        // this.reset();
+        //Прежде чем отрисовывать, зачищаем предыдущие отрисовки
+        this._drawEngine.clear();
+        this.draw();
 
-    //     //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
-    //     //Также requestAnimationFrame передает в start текущее время вызова.
-    //     requestAnimationFrame(this.start.bind(this))
-    // }
+        //Перезаписываем время последнего обновления на текущий момент
+        this._lastUpdate = now;
+
+        //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
+        //Также requestAnimationFrame передает в start текущее время вызова.
+        requestAnimationFrame(this._loop);
+    }
 
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
     checkFalls() {
@@ -137,17 +134,19 @@ class Game {
 
     //Метод запуска игры
     start() {
+        this._config.state.current = this._config.state.game;
         this._lastUpdate = Date.now();
-        // this._loop();
+        this._loop();
     }
 
     //Метод окончания игры
     gameOver() {
-        // alert(`Вы проиграли! Ваши очки: ${this._score}`);
-        cancelAnimationFrame(this.request);
+        this._config.state.current = this._config.state.over;
+        cancelAnimationFrame(this._loop);
         //Проигрываем звук крушения
         this._sounds.crashMp3.play();
     }
+
 }
 
 export default Game;

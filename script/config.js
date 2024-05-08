@@ -6,13 +6,13 @@ class Config {
     frameRate = 60; // Желаемая частота кадров (FPS)
     frameDelay = 1000 / this.frameRate; // Задержка между кадрами в миллисекундах
 
-    // // Текущее состояния игры
-    // state = {
-    //     current: 0,
-    //     getReady: 0,
-    //     game: 1,
-    //     over: 2
-    // }
+    // Текущее состояния игры
+    state = {
+        current: 0,
+        getReady: 0,
+        game: 1,
+        over: 2
+    }
 
     // переменная, необходимая для расчёта
     // новых координат на каждом кадре
@@ -20,7 +20,7 @@ class Config {
 
     //Метод изменения index на определенное значение
     increaseInd() {
-        this.index += 1;
+        this.index += 1.5;
     };
 
     canvas = {

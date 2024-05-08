@@ -20,7 +20,7 @@ class Config {
 
     //Метод изменения index на определенное значение
     increaseInd() {
-        this.index += 1.5;
+        this.index += 1.7;
     };
 
     canvas = {
@@ -39,10 +39,10 @@ class Config {
     };
 
     // константы для физики птицы
-    gravity = 1;
-    SPEED = 1;
+    gravity = 1.6;
+    SPEED = 4;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
-    delayJump = 400;
+    delayJump = 500;
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);

@@ -1,12 +1,14 @@
 import Config from "../config.js"
 import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "../Engine/PhysicsEngine.js"
+import Score from "../score.js"
 
 export default class Pipe {
     constructor() {
         this._drawEngine = new CanvasDrawEngine();
         this._config = new Config();
         this._physicsEngine = new PhysicsEngine();
+        this._score = new Score();
         
         // объекты изображения с ресурсами, которые будем
         // использовать для создания анимаций
@@ -72,7 +74,9 @@ export default class Pipe {
                     x : this._config.canvas.width,
                     y : -this._physicsEngine.getRandomInt(90, 450),
                     });
-                    this.currentScore += 1;
+
+                    //Увеличиваем колличество очков при появлении новой трубы
+                    this._score.increaseScore();
                 }
             }
         }

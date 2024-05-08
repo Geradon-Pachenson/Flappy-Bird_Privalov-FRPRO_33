@@ -27,6 +27,7 @@ class Game {
 
         this.start();
         
+        this.request = 0;
     }
 
 
@@ -106,15 +107,15 @@ class Game {
 
         //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
         //Также requestAnimationFrame передает в start текущее время вызова.
-        requestAnimationFrame(this._loop);
+        this.animationId = requestAnimationFrame(this._loop);
     }
 
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
-    checkFalls() {
+    checkFalls = () => {
         //Определяем края труб для создания логики столкновения
         const pipeLeftEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.pipe.padding;
         const pipeRightEdge = this._pipe.pipes[this._pipe.pipes.length - 1].x + this._config.bird.birdCoords.width * 2 + this._config.pipe.padding;
-        const pipeUpBottomEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height;
+        const pipeUpBottomEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height + this._config.pipe.padding / 3;
         const pipeDownTopEdge = this._pipe.pipes[this._pipe.pipes.length - 1].y + this._config.pipe.pipeBottom.height + this._pipe.gap + this._config.pipe.padding;
 
         //Определяем края птицы для создания логики столкновения
@@ -140,9 +141,9 @@ class Game {
     }
 
     //Метод окончания игры
-    gameOver() {
+    gameOver = () => {
+        cancelAnimationFrame(this.animationId);
         this._config.state.current = this._config.state.over;
-        cancelAnimationFrame(this._loop);
         //Проигрываем звук крушения
         this._sounds.crashMp3.play();
     }

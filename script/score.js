@@ -1,37 +1,55 @@
-import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 
 class Score {
     constructor() {
-        this._drawEngine = new CanvasDrawEngine();
+        this._config = new Config();
+        
+        this._scoreBox = this._config.scoreBox;
+        this._recordBox = this._config.recordBox;
+        this._gameOverWindowScore = this._config.gameOverWindowScore;
+        
         this._currentScore = 0;
         
+        this.getRecord();
+        this.update();
+    }      
+    update() {
+        this.setRecord();
+        this.create();
     }
-        // определяем переменные, рекорд проверяем на наличие в хранилище
-        highScore = parseInt(localStorage.getItem("highScore")) || 0;
-    
+    create() {
+        this.getRecord();
 
-    draw(state) {
-        if (state.current == state.game) { // рисуем счёт во время игры
-            this._drawEngine._context.lineWidth = 2;
-            this._drawEngine._context.font = "30px 'Press Start 2P', cursive";
-            this._drawEngine._context.strokeStyle = "#e10b25";
-            this._drawEngine._context.strokeText(this._currentScore, 150, 50);
-        } else if (state.current == state.over) { // рисуем счет после окончания игры
-            this._drawEngine._context.font = "20px 'Press Start 2P', cursive";
-           // текущий
-            this._drawEngine._context.strokeText(this._currentScore, 225, 188);
-           // лучщий
-            this._drawEngine._context.strokeText(this.highScore, 220, 230);
-        }
+        this._scoreBox.innerHTML = this._currentScore;
+        this._recordBox.innerHTML = this._record;
+        this._gameOverWindowScore.innerHTML = this._currentScore;
     }
-
     increaseScore() {
         this._currentScore += 1;
+        this.update()
     }
-
-    reset() {
-        this._currentScore = 0;
+    setRecord() {
+        if (this._currentScore > this._record) {
+            localStorage.setItem("record", this._currentScore);
+        } else {
+            localStorage.setItem("record", this._record);
+        }
+    }
+    getRecord() {
+        this._record = localStorage.getItem("record");
+        if (this._record == 'null' || this._record == 'undefined') {
+            this._record = 0;
+        }
+        return this._record;
+    }   
+    resetRecord() {
+        localStorage.removeItem("record");
+    }
+    get currentScore() {
+        return this._currentScore;
+    }
+    get record() {
+        return this._record;
     }
 }
-
+        
 export default Score;

@@ -40,7 +40,7 @@ class Config {
 
     // константы для физики птицы
     gravity = 1.6;
-    SPEED = 4;
+    SPEED = 2;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
     delayJump = 500;
 
@@ -171,6 +171,17 @@ class Config {
         scoreSrc: '../audio/score.mp3',
         crashSrc: '../audio/crash.mp3'
     }
+
+    //Элементы для отображния результата
+    scoreBox = document.querySelector(".score__count");
+    recordBox = document.querySelector(".record__count");
+    
+    gameOverWindow = document.querySelector(".game-over-window");
+    gameOverWindowScore = document.querySelector(".game-over-window__score");
+
+    //Старотовое изображение и таблица результатов
+    sprite ={
+        url: "../images/png/sprite.png",
+    }
 }
 
-export default Config;

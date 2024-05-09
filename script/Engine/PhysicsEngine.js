@@ -1,6 +1,4 @@
-import Config from "../config.js"
-import ControlInputHandler from "../inputHandler.js"
-import Pipe from "../Entity/Pipe.js"
+import ControlInputHandler from "./inputHandler.js"
 import Sounds from "../sounds.js"
 
 export default class PhysicsEngine {

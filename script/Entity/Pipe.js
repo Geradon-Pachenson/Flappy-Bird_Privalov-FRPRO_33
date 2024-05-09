@@ -1,4 +1,3 @@
-import Config from "../config.js"
 import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "../Engine/PhysicsEngine.js"
 import Score from "../score.js"
@@ -31,7 +30,7 @@ export default class Pipe {
     
     
 
-    draw(state) {
+    draw = (state) => {
         //Если текущая игра запущена, запускаем отрисовку труб
         if (state.current !== state.game) {
             return;

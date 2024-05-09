@@ -1,4 +1,3 @@
-import Config from "./config.js"
 
 export default class Sounds {
     constructor() {

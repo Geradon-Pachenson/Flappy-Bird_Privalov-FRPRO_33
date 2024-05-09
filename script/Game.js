@@ -1,4 +1,3 @@
-import Config from "./config.js"
 import Bird from "./Entity/Bird.js"
 import Background from "./Entity/Background.js"
 import Pipe from "./Entity/Pipe.js"
@@ -6,6 +5,7 @@ import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "./Engine/PhysicsEngine.js"
 import Sounds from "./sounds.js"
 import Score from "./score.js"
+import ResultTable from "./resultsTable.js"
 
 class Game {
     constructor() {
@@ -17,6 +17,7 @@ class Game {
         this._physicsEngine = new PhysicsEngine();
         this._sounds = new Sounds();
         this._score = new Score();
+        this._resultTable = new ResultTable();
 
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
@@ -76,8 +77,8 @@ class Game {
         // Запускаем функцию отрисовки нижней части фона
         this._bg.drawFg(this._config.state);
 
-        // Запускаем функцию отрисовки и подсчета очков
-        this._score.draw(this._config.state);
+        // // Запускаем функцию отрисовки и подсчета очков
+        // this._score.draw(this._config.state);
 
          // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
         this.checkFalls();
@@ -146,6 +147,9 @@ class Game {
         this._config.state.current = this._config.state.over;
         //Проигрываем звук крушения
         this._sounds.crashMp3.play();
+        
+        //Отрисовываем таблицу результатов
+        this._resultTable.draw();
     }
 
 }

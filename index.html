@@ -8,7 +8,23 @@
     <title>Flappy Bird</title>
 </head>
 <body class="body">
+    <div class="game-over-window invisible">
+        <h1 class="game-over-window__title">Game Over!</h1>
+        <p class="game-over-window__text">Your score is <span class="game-over-window__score"></span>!</p>
+    </div>
+
     <canvas id="canvas" width="450" height="700"></canvas>
+
+    <div class="game-info invisible">
+        <div class="info score">
+            <h3 class="score__title">Score:</h3>
+            <span class="score__count"></span>
+        </div>
+        <div class="info record">
+            <h3 class="record__title">Record:</h3>
+            <span class="record__count"></span>
+        </div>
+    </div>
     <!-- <script type="module" src="./script/newGame.js"></script> -->
     <!-- <script src="script/config.js"></script>
     <script src="script/base.js"></script>
@@ -19,6 +35,7 @@
     <script src="script/inputHandler.js"></script>
     <script src="script/resources.js"></script>
     <script src="script/Game.js"></script> -->
+    <script src="./script//config.js"></script>
     <script type="module" src="./script/index.js"></script>
 </body>
 </html>

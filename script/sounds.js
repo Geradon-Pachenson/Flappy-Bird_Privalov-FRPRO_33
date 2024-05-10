@@ -1,7 +1,7 @@
 
 export default class Sounds {
-    constructor() {
-        this._config = new Config();
+    constructor(params) {
+        this._config = params.config;
 
         this.vzmahMp3 = new Audio;
         this.vzmahMp3.src = this._config.sounds.vzmahSrc;

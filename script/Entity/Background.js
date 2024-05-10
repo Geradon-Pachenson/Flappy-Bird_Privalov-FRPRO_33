@@ -1,9 +1,8 @@
-import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
 
 class Background {
-    constructor() {
-        this._drawEngine = new CanvasDrawEngine();
-        this._config = new Config();
+    constructor(params) {
+        this._drawEngine = params.drawEngine;
+        this._config = params.config;
         this.imgURL = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
 
         // объект изображения верхней части фонового изображения, которое будем
@@ -18,12 +17,12 @@ class Background {
     }
 
     // рисуем фоновое изображение на канвасе 
-    drawBg(state) {
+    drawBg() {
         // Пересчитываем координату по оси X фонового изображения. % 1900 - зацикливаем
         this.backgroudX = (this.backgroudX - this._config.SPEED) % 1900;
 
         //Если игра запущена, анимируем фон
-        if (state.current === state.game) {
+        if (this._config.state.current === this._config.state.game) {
             //функция отрисовки первой верхней части фона
             this._drawEngine.draw(
                 this.bgImg,
@@ -75,7 +74,7 @@ class Background {
     drawFg(state) {
 
         //Если игра запущена, анимируем фон
-        if (state.current === state.game) {
+        if (this._config.state.current === this._config.state.game) {
             //функция отрисовки первой нижней части фона
             this._drawEngine.draw(
                 this.fgImg,

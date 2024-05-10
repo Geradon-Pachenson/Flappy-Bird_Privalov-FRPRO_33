@@ -1,7 +1,8 @@
+import Config from "./config.js";
+import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 import Bird from "./Entity/Bird.js"
 import Background from "./Entity/Background.js"
 import Pipe from "./Entity/Pipe.js"
-import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 import PhysicsEngine from "./Engine/PhysicsEngine.js"
 import Sounds from "./sounds.js"
 import Score from "./score.js"
@@ -10,14 +11,38 @@ import ResultTable from "./resultsTable.js"
 class Game {
     constructor() {
         this._config = new Config();
-        this._bird = new Bird();
-        this._bg = new Background();
-        this._pipe = new Pipe();
         this._drawEngine = new CanvasDrawEngine();
-        this._physicsEngine = new PhysicsEngine();
-        this._sounds = new Sounds();
-        this._score = new Score();
-        this._resultTable = new ResultTable();
+        this._sounds = new Sounds({
+            config: this._config,
+        });
+        this._physicsEngine = new PhysicsEngine({
+            config: this._config,
+            sounds: this._sounds,
+        });
+        this._score = new Score({
+            config: this._config,
+            drawEngine: this._drawEngine,
+        });
+        this._bird = new Bird({
+            config: this._config,
+            drawEngine: this._drawEngine,
+            physicsEngine: this._physicsEngine,
+        });
+        this._bg = new Background({
+            config: this._config,
+            drawEngine: this._drawEngine,
+        });
+        this._pipe = new Pipe({
+            config: this._config,
+            drawEngine: this._drawEngine,
+            physicsEngine: this._physicsEngine,
+            score: this._score,
+            sounds: this._sounds,
+        });
+        this._resultTable = new ResultTable({
+            config: this._config,
+            drawEngine: this._drawEngine,
+        });
 
         //Устанавливаем высоту и ширину игры = высоте и ширине canvas
         this._width = this._config.canvas.width;
@@ -26,8 +51,6 @@ class Game {
         // //Создаем загрузчик spriteSheet
         // this._resourceLoader = new ResourcesLoader();
 
-        this.start();
-        
         this.request = 0;
     }
 
@@ -66,21 +89,26 @@ class Game {
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
     draw = () => {
         // Запускаем функцию отрисовки верхней части фона
-        this._bg.drawBg(this._config.state);
+        this._bg.drawBg();
 
         // Запускаем функцию отрисовки птицы
         this._bird.draw();
 
         // Запускаем функцию отрисовки труб
-        this._pipe.draw(this._config.state);
+        this._pipe.draw();
 
         // Запускаем функцию отрисовки нижней части фона
-        this._bg.drawFg(this._config.state);
+        this._bg.drawFg();
 
-        // // Запускаем функцию отрисовки и подсчета очков
-        // this._score.draw(this._config.state);
+        //Если игра окончена, отрисовываем таблицу результатов
+        if (this._config.state.current === this._config.state.over) {
+            this._resultTable.draw();
+        };
 
-         // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+        // Запускаем функцию отрисовки очков
+        this._score.draw();
+
+        // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
         this.checkFalls();
     }
 
@@ -145,11 +173,11 @@ class Game {
     gameOver = () => {
         cancelAnimationFrame(this.animationId);
         this._config.state.current = this._config.state.over;
-        //Проигрываем звук крушения
+    
+        // Проигрываем звук крушения
         this._sounds.crashMp3.play();
-        
-        //Отрисовываем таблицу результатов
-        this._resultTable.draw();
+
+        this._score.drawMedal();
     }
 
 }

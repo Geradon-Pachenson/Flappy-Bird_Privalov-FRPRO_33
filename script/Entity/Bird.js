@@ -1,11 +1,9 @@
-import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
-import PhysicsEngine from "../Engine/PhysicsEngine.js"
 
 class Bird {
-    constructor() {
-        this._drawEngine = new CanvasDrawEngine();
-        this._config = new Config();
-        this._physicsEngine = new PhysicsEngine();
+    constructor(params) {
+        this._drawEngine = params.drawEngine;
+        this._config = params.config;
+        this._physicsEngine = params.physicsEngine;
         
         // объект изображения с ресурсами, которые будем
         // использовать для создания анимаций

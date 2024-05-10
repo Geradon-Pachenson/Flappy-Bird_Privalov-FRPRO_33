@@ -1,13 +1,11 @@
-import CanvasDrawEngine from "../Engine/CanvasDrawEngine.js"
-import PhysicsEngine from "../Engine/PhysicsEngine.js"
-import Score from "../score.js"
 
 export default class Pipe {
-    constructor() {
-        this._drawEngine = new CanvasDrawEngine();
-        this._config = new Config();
-        this._physicsEngine = new PhysicsEngine();
-        this._score = new Score();
+    constructor(params) {
+        this._drawEngine = params.drawEngine;
+        this._config = params.config;
+        this._physicsEngine = params.physicsEngine;
+        this._score = params.score;
+        this._sounds =  params.sounds;
         
         // объекты изображения с ресурсами, которые будем
         // использовать для создания анимаций
@@ -15,6 +13,8 @@ export default class Pipe {
         this.pipeUp.src = this._config.pipe.pipeUpUrl;
         this.pipeBottom = new Image();
         this.pipeBottom.src = this._config.pipe.pipeBottomUrl;
+        this.TableImg = new Image();
+        this.TableImg.src = this._config.sprite.url;
         
         //Создаём расстояние между трубами и сам массив труб
         this.gap = this._config.pipe.gap;
@@ -24,15 +24,13 @@ export default class Pipe {
             //Первый промежуток посередине игры
             y : -this._config.canvas.height / 3,
         }
-
-        this.currentScore = 0;
     }
     
     
 
-    draw = (state) => {
+    draw = () => {
         //Если текущая игра запущена, запускаем отрисовку труб
-        if (state.current !== state.game) {
+        if (this._config.state.current !== this._config.state.game) {
             return;
         } else {
             for(let i = 0; i < this.pipes.length; i++) {
@@ -74,8 +72,17 @@ export default class Pipe {
                     y : -this._physicsEngine.getRandomInt(90, 450),
                     });
 
+                    // Проигрываем звук увеличения очков
+                    this._sounds.scoreMp3.play();
+
                     //Увеличиваем колличество очков при появлении новой трубы
                     this._score.increaseScore();
+
+                    // увеличиваем немного скорость и гравитацию каждые 3 очка
+                    if (this._score._currentScore % 3 === 0) {
+                        this._config.increaseSPEED();
+                        this._config.increaseGrav();
+                    }
                 }
             }
         }

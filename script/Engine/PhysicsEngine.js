@@ -1,10 +1,9 @@
 import ControlInputHandler from "./inputHandler.js"
-import Sounds from "../sounds.js"
 
 export default class PhysicsEngine {
-    constructor() {
-        this._config = new Config();
-        this._sounds = new Sounds();
+    constructor(params) {
+        this._config = params.config;
+        this._sounds =  params.sounds;
         this.y = this._config.bird.birdCoords.y;
         this.x = this._config.bird.birdCoords.x;
 

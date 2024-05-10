@@ -1,6 +1,5 @@
-class Config {
+export default class Config {
     constructor() {
-        
     }
 
     frameRate = 60; // Желаемая частота кадров (FPS)
@@ -43,6 +42,16 @@ class Config {
     SPEED = 2;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
     delayJump = 500;
+
+    //Метод изменения скорости на определенное значение
+    increaseSPEED() {
+        this.SPEED += 0.2;
+    };
+
+    //Метод изменения гравитации на определенное значение
+    increaseGrav() {
+        this.gravity += 0.05;
+    };
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);
@@ -171,13 +180,6 @@ class Config {
         scoreSrc: '../audio/score.mp3',
         crashSrc: '../audio/crash.mp3'
     }
-
-    //Элементы для отображния результата
-    scoreBox = document.querySelector(".score__count");
-    recordBox = document.querySelector(".record__count");
-    
-    gameOverWindow = document.querySelector(".game-over-window");
-    gameOverWindowScore = document.querySelector(".game-over-window__score");
 
     //Старотовое изображение и таблица результатов
     sprite ={

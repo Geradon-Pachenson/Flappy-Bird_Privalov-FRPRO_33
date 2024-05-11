@@ -1,8 +1,8 @@
 
 class Score {
-    constructor(params) {
-        this._config = params.config;
-        this._drawEngine = params.drawEngine;
+    constructor(setting) {
+        this._config = setting.config;
+        this._drawEngine = setting.drawEngine;
 
         this.TableImg = new Image();
         this.TableImg.src = this._config.sprite.url;

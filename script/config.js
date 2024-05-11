@@ -2,6 +2,9 @@ export default class Config {
     constructor() {
     }
 
+    btnClick = false;
+
+    //Переменные для стабилизации скорости отрисовки
     frameRate = 60; // Желаемая частота кадров (FPS)
     frameDelay = 1000 / this.frameRate; // Задержка между кадрами в миллисекундах
 

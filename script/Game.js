@@ -51,7 +51,7 @@ class Game {
         // //Создаем загрузчик spriteSheet
         // this._resourceLoader = new ResourcesLoader();
 
-        this.request = 0;
+        this.animationId = 0;
     }
 
 

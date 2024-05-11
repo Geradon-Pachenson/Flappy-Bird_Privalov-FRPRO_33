@@ -1,11 +1,11 @@
 
 export default class Pipe {
-    constructor(params) {
-        this._drawEngine = params.drawEngine;
-        this._config = params.config;
-        this._physicsEngine = params.physicsEngine;
-        this._score = params.score;
-        this._sounds =  params.sounds;
+    constructor(setting) {
+        this._drawEngine = setting.drawEngine;
+        this._config = setting.config;
+        this._physicsEngine = setting.physicsEngine;
+        this._score = setting.score;
+        this._sounds =  setting.sounds;
         
         // объекты изображения с ресурсами, которые будем
         // использовать для создания анимаций
@@ -26,8 +26,6 @@ export default class Pipe {
         }
     }
     
-    
-
     draw = () => {
         //Если текущая игра запущена, запускаем отрисовку труб
         if (this._config.state.current !== this._config.state.game) {

@@ -1,9 +1,9 @@
 import ControlInputHandler from "./inputHandler.js"
 
 export default class PhysicsEngine {
-    constructor(params) {
-        this._config = params.config;
-        this._sounds =  params.sounds;
+    constructor(setting) {
+        this._config = setting.config;
+        this._sounds =  setting.sounds;
         this.y = this._config.bird.birdCoords.y;
         this.x = this._config.bird.birdCoords.x;
 
@@ -15,6 +15,13 @@ export default class PhysicsEngine {
         this._inputHandler = new ControlInputHandler({
             left: ({x, y}) => {
                 this.flap();
+                //Если игра окончена обрабатываем клик по кнопке start для перезапуска
+                if (this._config.state.current === this._config.state.over && 
+                (x >= 235 && x <= 355) &&
+                (y >= 408 && y <= 450)) {
+                    this._config.btnClick = true;
+                    console.log(this._config.btnClick);
+                };
             },
             Space: () => {
                 this.flap();

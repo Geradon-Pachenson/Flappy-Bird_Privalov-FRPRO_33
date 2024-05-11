@@ -51,10 +51,30 @@ class Game {
         // //Создаем загрузчик spriteSheet
         // this._resourceLoader = new ResourcesLoader();
 
-        this.request = 0;
+        this.animationId = 0;
     }
 
-
+    // Функция подготовки к игре
+    prepare() {
+        this._bg.drawStartImg();
+        // Обработчик клика на стартовом экране
+        this._drawEngine.canvas.addEventListener('click', (event) => {
+            if (!this._drawEngine.canvas || !this._sounds || !this._score || !this._bird || !this._bg || !this._pipe || !this._resultTable) {
+            console.error('Переменные не определены.');
+            return;
+            }
+            
+            if (this._config.state.current === this._config.state.getReady) { // Если игра еще не начата, то начать
+                this.start();
+            } else if (this._config.state.current === this._config.state.game) { // Если игра идет, то обработать клик 
+                event.preventDefault();
+                handleFlap();
+            
+            } else if (state.current === state.over && isClickOnStartBtn(clickX, clickY)) { // Если игра окончена, то обработать клик на кнопку "Start"
+            resetGame();
+            }
+        });
+    }
 
     // //Асинхронный метод подготовки к игре
     // async prepare() {
@@ -66,25 +86,6 @@ class Game {
 
     //     })
     // }
-
-    // //Метод обновления состояния игры. Создаем наши сущности
-    // reset() {
-    //     //Обнуляем колличество очков
-    //     this._score = 0;
-    //     this._bird = new Bird( {
-    //             x: this._config.bird.x,
-    //             y: this._config.bird.y,
-    //             width: this._config.bird.widht,
-    //             height: this._config.bird.height,
-    //             frames: this._config.bird.frames,
-    //             spriteSheet: this._spriteSheet,
-    //             flapSpeed: this._config.bird.flapSpeed,
-    //             physicsEngine: this._physicsEngine,
-    //             drawEngine: this._drawEngine,
-    //             game: this,
-    //         })
-    // }
-    
 
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
     draw = () => {
@@ -103,6 +104,7 @@ class Game {
         //Если игра окончена, отрисовываем таблицу результатов
         if (this._config.state.current === this._config.state.over) {
             this._resultTable.draw();
+            this._score.drawMedal();
         };
 
         // Запускаем функцию отрисовки очков
@@ -120,8 +122,8 @@ class Game {
         //Взывисимости от дельты мы будем обновлять состояние - чем больше времени прошло тем дальше ушли события игры.
         const delta = now - this._lastUpdate;
 
-        if (delta < this._config.frameDelay) {
         // Если прошло меньше времени, чем задержка между кадрами, ждем оставшееся время
+        if (delta < this._config.frameDelay) {
             setTimeout(this._loop, this._config.frameDelay - delta);
             return;
         }
@@ -136,7 +138,7 @@ class Game {
 
         //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
         //Также requestAnimationFrame передает в start текущее время вызова.
-        this.animationId = requestAnimationFrame(this._loop);
+        this.animationId = window.requestAnimationFrame(this._loop.bind(this));
     }
 
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
@@ -167,17 +169,29 @@ class Game {
         this._config.state.current = this._config.state.game;
         this._lastUpdate = Date.now();
         this._loop();
+
+        if (this._config.btnClick = true) {
+            this.restart();
+        }
+    }
+
+     //Метод обновления состояния игры. Создаем наши сущности
+    restart() {
+        //Обнуляем колличество очков
+        this._score._currentScore = 0;
+        this._config.state.current = this._config.state.game;
+        this._lastUpdate = Date.now();
+        this.prepare();
     }
 
     //Метод окончания игры
     gameOver = () => {
-        cancelAnimationFrame(this.animationId);
+        window.cancelAnimationFrame(this.animationId);
         this._config.state.current = this._config.state.over;
     
         // Проигрываем звук крушения
         this._sounds.crashMp3.play();
 
-        this._score.drawMedal();
     }
 
 }

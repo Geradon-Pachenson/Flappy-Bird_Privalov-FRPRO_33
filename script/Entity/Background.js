@@ -1,20 +1,42 @@
 
 class Background {
-    constructor(params) {
-        this._drawEngine = params.drawEngine;
-        this._config = params.config;
-        this.imgURL = "https://i.ibb.co/Q9yv5Jk/flappy-bird-set.png";
+    constructor(setting) {
+        this._drawEngine = setting.drawEngine;
+        this._config = setting.config;
 
         // объект изображения верхней части фонового изображения, которое будем
         // использовать для создания анимаций
         this.bgImg = new Image();
         this.bgImg.src = this._config.bg.url;
+
         // объект изображения нижней части фонового изображения, которое будем
         // использовать для создания анимаций
         this.fgImg = new Image();
         this.fgImg.src = this._config.fg.url;
+
         this.backgroudX = 0;
+
+        // объект изображения стартового фонового изображения
+        this.startImg = new Image();
+        this.startImg.src = this._config.sprite.url;
     }
+
+     // рисуем таблицу результатов на канвасе
+    drawStartImg() {
+    this._drawEngine.draw(
+        this.startImg,
+    
+        1,
+        116,
+        116,
+        153,
+        
+        0,
+        0,
+        this._config.canvas.width,
+        this._config.canvas.height,
+    );
+};
 
     // рисуем фоновое изображение на канвасе 
     drawBg() {

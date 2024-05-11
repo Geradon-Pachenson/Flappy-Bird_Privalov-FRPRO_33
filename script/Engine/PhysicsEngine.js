@@ -3,7 +3,8 @@ import ControlInputHandler from "./inputHandler.js"
 export default class PhysicsEngine {
     constructor(setting) {
         this._config = setting.config;
-        this._sounds =  setting.sounds;
+        this._sounds = setting.sounds;
+        this._inputHandler = setting.inputHandler;
         this.y = this._config.bird.birdCoords.y;
         this.x = this._config.bird.birdCoords.x;
 
@@ -11,7 +12,7 @@ export default class PhysicsEngine {
         this.angle;
 
         //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
-        // При нажатии на кнопку клавиатуры просто запускаем метод bird.flap
+        // При нажатии на кнопку клавиатуры просто запускаем метод flap
         this._inputHandler = new ControlInputHandler({
             left: ({x, y}) => {
                 this.flap();

@@ -23,20 +23,21 @@ class Background {
 
      // рисуем таблицу результатов на канвасе
     drawStartImg() {
-    this._drawEngine.draw(
-        this.startImg,
-    
-        1,
-        116,
-        116,
-        153,
+        console.log(123);
+        this._drawEngine.draw(
+            this.startImg,
         
-        0,
-        0,
-        this._config.canvas.width,
-        this._config.canvas.height,
-    );
-};
+            1,
+            116,
+            172,
+            183,
+            
+            100,
+            170,
+            250,
+            250,
+        );
+    }
 
     // рисуем фоновое изображение на канвасе 
     drawBg() {
@@ -93,7 +94,7 @@ class Background {
     }
 
     // рисуем фоновое изображение на канвасе
-    drawFg(state) {
+    drawFg() {
 
         //Если игра запущена, анимируем фон
         if (this._config.state.current === this._config.state.game) {

@@ -18,6 +18,7 @@ class Game {
         this._physicsEngine = new PhysicsEngine({
             config: this._config,
             sounds: this._sounds,
+            inputHandler: this._inputHandler,
         });
         this._score = new Score({
             config: this._config,
@@ -52,28 +53,7 @@ class Game {
         // this._resourceLoader = new ResourcesLoader();
 
         this.animationId = 0;
-    }
 
-    // Функция подготовки к игре
-    prepare() {
-        this._bg.drawStartImg();
-        // Обработчик клика на стартовом экране
-        this._drawEngine.canvas.addEventListener('click', (event) => {
-            if (!this._drawEngine.canvas || !this._sounds || !this._score || !this._bird || !this._bg || !this._pipe || !this._resultTable) {
-            console.error('Переменные не определены.');
-            return;
-            }
-            
-            if (this._config.state.current === this._config.state.getReady) { // Если игра еще не начата, то начать
-                this.start();
-            } else if (this._config.state.current === this._config.state.game) { // Если игра идет, то обработать клик 
-                event.preventDefault();
-                handleFlap();
-            
-            } else if (state.current === state.over && isClickOnStartBtn(clickX, clickY)) { // Если игра окончена, то обработать клик на кнопку "Start"
-            resetGame();
-            }
-        });
     }
 
     // //Асинхронный метод подготовки к игре
@@ -100,7 +80,7 @@ class Game {
 
         // Запускаем функцию отрисовки нижней части фона
         this._bg.drawFg();
-
+        
         //Если игра окончена, отрисовываем таблицу результатов
         if (this._config.state.current === this._config.state.over) {
             this._resultTable.draw();
@@ -110,8 +90,9 @@ class Game {
         // Запускаем функцию отрисовки очков
         this._score.draw();
 
-        // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
-        this.checkFalls();
+        if (this._config.state.current === this._config.state.getReady) { 
+            this._bg.drawStartImg();
+        }
     }
 
     //Метод цикла
@@ -133,12 +114,15 @@ class Game {
         this._drawEngine.clear();
         this.draw();
 
+        // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
+        this.checkFalls();
+
         //Перезаписываем время последнего обновления на текущий момент
         this._lastUpdate = now;
 
         //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
         //Также requestAnimationFrame передает в start текущее время вызова.
-        this.animationId = window.requestAnimationFrame(this._loop.bind(this));
+        this.animationId = window.requestAnimationFrame(this._loop);
     }
 
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
@@ -159,8 +143,31 @@ class Game {
             ((birdRightEdge >= pipeLeftEdge) && //столкновение с трубами
             (birdLeftEdge <= pipeRightEdge) && 
             (birdTopEdge <= pipeUpBottomEdge || birdBottomEdge >= pipeDownTopEdge))) {
-            // window.cancelAnimationFrame(this.request);
+            
+            // Проигрываем звук крушения
+            this._sounds.crashMp3.play();
             this.gameOver();
+        }
+    }
+
+    // Функция подготовки к игре
+    prepare = () => {
+        // Обработчик клика на стартовом экране
+        this._drawEngine.canvas.addEventListener('click', (e) => {
+            if (!this._drawEngine.canvas || !this._sounds || !this._score || !this._bird || !this._bg || !this._pipe || !this._resultTable) {
+                console.error('Переменные не определены.');
+                return;
+            };
+            if (this._config.state.current === this._config.state.getReady) {// Начинаем игру, если текущий статус getReady
+            this.start();
+            } 
+        });
+        if (this._config.state.current === this._config.state.game) { // Если игра идет, то обработать клик 
+            e.preventDefault();
+        // При проигрыше, обрабатываем нажатие на кнопку "Start"
+        } else if (this._config.state.current === this._config.state.over && this._config.btnClick === true ) { 
+            this.reset();
+            this.start();
         }
     }
 
@@ -169,18 +176,17 @@ class Game {
         this._config.state.current = this._config.state.game;
         this._lastUpdate = Date.now();
         this._loop();
-
-        if (this._config.btnClick = true) {
-            this.restart();
-        }
     }
 
      //Метод обновления состояния игры. Создаем наши сущности
-    restart() {
+    reset() {
         //Обнуляем колличество очков
         this._score._currentScore = 0;
-        this._config.state.current = this._config.state.game;
-        this._lastUpdate = Date.now();
+        this._pipe.reset();
+        this._config.gravity = 1.6;
+        this._config.SPEED = 2;
+        this._config.state.current = this._config.state.getReady;
+        
         this.prepare();
     }
 
@@ -188,10 +194,8 @@ class Game {
     gameOver = () => {
         window.cancelAnimationFrame(this.animationId);
         this._config.state.current = this._config.state.over;
-    
-        // Проигрываем звук крушения
-        this._sounds.crashMp3.play();
 
+        this.prepare();
     }
 
 }

@@ -89,4 +89,9 @@ export default class Pipe {
             this.pipes.shift()
         }
     }
+
+    // обнуляем массив 
+    reset() {
+        this.pipes = [];
+    };
 }

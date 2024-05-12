@@ -13,8 +13,6 @@ export default class Pipe {
         this.pipeUp.src = this._config.pipe.pipeUpUrl;
         this.pipeBottom = new Image();
         this.pipeBottom.src = this._config.pipe.pipeBottomUrl;
-        this.TableImg = new Image();
-        this.TableImg.src = this._config.sprite.url;
         
         //Создаём расстояние между трубами и сам массив труб
         this.gap = this._config.pipe.gap;
@@ -28,7 +26,7 @@ export default class Pipe {
     
     draw = () => {
         //Если текущая игра запущена, запускаем отрисовку труб
-        if (this._config.state.current !== this._config.state.game) {
+        if (this._config.state.current !== this._config.state.play) {
             return;
         } else {
             for(let i = 0; i < this.pipes.length; i++) {
@@ -90,8 +88,13 @@ export default class Pipe {
         }
     }
 
-    // обнуляем массив 
+    // обнуляем массив труб
     reset() {
         this.pipes = [];
+        this.pipes[0] = {
+            x : this._config.canvas.width,
+            //Первый промежуток посередине игры
+            y : -this._config.canvas.height / 3,
+        }
     };
 }

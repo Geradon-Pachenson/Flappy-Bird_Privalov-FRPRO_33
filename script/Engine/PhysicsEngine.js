@@ -10,24 +10,6 @@ export default class PhysicsEngine {
 
         //Переменная наклона птицы в разных состояниях
         this.angle;
-
-        //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
-        // При нажатии на кнопку клавиатуры просто запускаем метод flap
-        this._inputHandler = new ControlInputHandler({
-            left: ({x, y}) => {
-                this.flap();
-                //Если игра окончена обрабатываем клик по кнопке start для перезапуска
-                if (this._config.state.current === this._config.state.over && 
-                (x >= 235 && x <= 355) &&
-                (y >= 408 && y <= 450)) {
-                    this._config.btnClick = true;
-                    console.log(this._config.btnClick);
-                };
-            },
-            Space: () => {
-                this.flap();
-            },
-        })
     }
     
 
@@ -59,8 +41,10 @@ export default class PhysicsEngine {
         this.flapStartTime = Date.now();
         //Определяем момент остановки взлета-прыжка
         this.flapEndTime = Date.now() + this._config.delayJump;
-        //Проигрываем взмах крыльев
-        this._sounds.vzmahMp3.play();
+        //Проигрываем взмах крыльев если режим игра активен
+        if (this._config.state.current === this._config.state.play) {
+            this._sounds.vzmahMp3.play()
+        };
     }
 
     // определяем логику падения птички
@@ -76,5 +60,11 @@ export default class PhysicsEngine {
         min = Math.ceil(min);
         max = Math.floor(max);
         return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    //Обнуляем координаты птицы на canvas
+    reset() {
+        this.y = this._config.bird.birdCoords.y;
+        this.x = this._config.bird.birdCoords.x;
     }
 }

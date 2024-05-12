@@ -1,4 +1,6 @@
 import Config from "./config.js";
+import ResourcesLoader from "./resources.js";
+import ControlInputHandler from "./Engine/inputHandler.js"
 import CanvasDrawEngine from "./Engine/CanvasDrawEngine.js"
 import Bird from "./Entity/Bird.js"
 import Background from "./Entity/Background.js"
@@ -11,14 +13,41 @@ import ResultTable from "./resultsTable.js"
 class Game {
     constructor() {
         this._config = new Config();
+        this._resources = new ResourcesLoader();
         this._drawEngine = new CanvasDrawEngine();
         this._sounds = new Sounds({
             config: this._config,
+        });
+        //Управление птицей мышью. При нажатии на левую кнопку мыши принимаем координаты птицы и запускаем метод bird.flap
+        // При нажатии на кнопку клавиатуры просто запускаем метод flap
+        this._inputHandler = new ControlInputHandler({
+            left: ({x, y}) => {
+                // Константы для определения координат клика на canvas
+                const {left, top} = canvas.getBoundingClientRect();
+                const clickX = x - left;
+                const clickY = y - top;
+
+                this._physicsEngine.flap();
+                
+                //Если игра окончена обрабатываем клик по кнопке start для перезапуска
+                if (this._config.state.current === this._config.state.over && 
+                (clickX >= 175 && clickX <= 291) &&
+                (clickY >= 388 && clickY <= 427)) {
+                    this.start();
+                };
+            },
+            Space: () => {
+                this._physicsEngine.flap();
+            },
         });
         this._physicsEngine = new PhysicsEngine({
             config: this._config,
             sounds: this._sounds,
             inputHandler: this._inputHandler,
+        });
+        this._bg = new Background({
+            config: this._config,
+            drawEngine: this._drawEngine,
         });
         this._score = new Score({
             config: this._config,
@@ -28,10 +57,6 @@ class Game {
             config: this._config,
             drawEngine: this._drawEngine,
             physicsEngine: this._physicsEngine,
-        });
-        this._bg = new Background({
-            config: this._config,
-            drawEngine: this._drawEngine,
         });
         this._pipe = new Pipe({
             config: this._config,
@@ -45,30 +70,12 @@ class Game {
             drawEngine: this._drawEngine,
         });
 
-        //Устанавливаем высоту и ширину игры = высоте и ширине canvas
-        this._width = this._config.canvas.width;
-        this._height = this._config.canvas.height;
-
-        // //Создаем загрузчик spriteSheet
-        // this._resourceLoader = new ResourcesLoader();
-
-        this.animationId = 0;
-
+        this._gameAnimId;
     }
-
-    // //Асинхронный метод подготовки к игре
-    // async prepare() {
-    //     this._spriteSheet = await this._resourceLoader.load({
-    //         type: RESOURCES_TYPE.IMAGE,
-    //         src: this._config.spriteSheet.src,
-    //         width: this._config.spriteSheet.width,
-    //         height: this._config.spriteSheet.height,
-
-    //     })
-    // }
 
     //Метод отрисовки всего что посчитали. Так же задаем порядок отриосвки. 
     draw = () => {
+
         // Запускаем функцию отрисовки верхней части фона
         this._bg.drawBg();
 
@@ -90,9 +97,6 @@ class Game {
         // Запускаем функцию отрисовки очков
         this._score.draw();
 
-        if (this._config.state.current === this._config.state.getReady) { 
-            this._bg.drawStartImg();
-        }
     }
 
     //Метод цикла
@@ -109,9 +113,9 @@ class Game {
             return;
         }
         
-        // this.reset();
         //Прежде чем отрисовывать, зачищаем предыдущие отрисовки
         this._drawEngine.clear();
+
         this.draw();
 
         // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
@@ -122,7 +126,7 @@ class Game {
 
         //Запускаем метод анимирования, перезапускающий метод start. Биндим, чтобы не потерять this.
         //Также requestAnimationFrame передает в start текущее время вызова.
-        this.animationId = window.requestAnimationFrame(this._loop);
+        this._gameAnimId = requestAnimationFrame(this._loop);
     }
 
      // определяем логику столкновения птицы с землёй и трубами, с учетом наклона птицы 
@@ -144,8 +148,10 @@ class Game {
             (birdLeftEdge <= pipeRightEdge) && 
             (birdTopEdge <= pipeUpBottomEdge || birdBottomEdge >= pipeDownTopEdge))) {
             
-            // Проигрываем звук крушения
-            this._sounds.crashMp3.play();
+            // Проигрываем звук крушения если режим игра активен
+            if (this._config.state.current === this._config.state.play) {
+                this._sounds.crashMp3.play();
+            };
             this.gameOver();
         }
     }
@@ -158,22 +164,16 @@ class Game {
                 console.error('Переменные не определены.');
                 return;
             };
-            if (this._config.state.current === this._config.state.getReady) {// Начинаем игру, если текущий статус getReady
-            this.start();
+            if (this._config.state.current === this._config.state.ready) {// Начинаем игру, если текущий статус ready
+                this.start();
             } 
         });
-        if (this._config.state.current === this._config.state.game) { // Если игра идет, то обработать клик 
-            e.preventDefault();
-        // При проигрыше, обрабатываем нажатие на кнопку "Start"
-        } else if (this._config.state.current === this._config.state.over && this._config.btnClick === true ) { 
-            this.reset();
-            this.start();
-        }
     }
 
     //Метод запуска игры
     start() {
-        this._config.state.current = this._config.state.game;
+        this.reset();
+        this._config.state.current = this._config.state.play;
         this._lastUpdate = Date.now();
         this._loop();
     }
@@ -181,23 +181,39 @@ class Game {
      //Метод обновления состояния игры. Создаем наши сущности
     reset() {
         //Обнуляем колличество очков
+        this._config.state.current = this._config.state.ready;
         this._score._currentScore = 0;
         this._pipe.reset();
+        this._physicsEngine.reset();
         this._config.gravity = 1.6;
         this._config.SPEED = 2;
-        this._config.state.current = this._config.state.getReady;
-        
-        this.prepare();
     }
 
     //Метод окончания игры
     gameOver = () => {
-        window.cancelAnimationFrame(this.animationId);
+
         this._config.state.current = this._config.state.over;
 
         this.prepare();
+        //Отсанавливаем анимацию
+        cancelAnimationFrame(this._gameAnimId);
     }
 
+    //Проверка загрузки ресурсов
+    loadAssets() {
+        const bgPromise = this._resources.loadImgAsset(this._config.bg.url);
+        const fgPromise = this._resources.loadImgAsset(this._config.fg.url);
+        const birdPromise = this._resources.loadImgAsset(this._config.bird.url);
+        const pipeUpPromise = this._resources.loadImgAsset(this._config.pipe.pipeUpUrl);
+        const pipeBottomPromise = this._resources.loadImgAsset(this._config.pipe.pipeBottomUrl);
+        const spritePromise = this._resources.loadImgAsset(this._config.sprite.url);
+        
+        const vzmahPromise = this._resources.loadAudioAsset(this._config.sounds.vzmahSrc);
+        const scorePromise = this._resources.loadAudioAsset(this._config.sounds.scoreSrc);
+        const crashPromise = this._resources.loadAudioAsset(this._config.sounds.crashSrc);
+
+        return Promise.all([bgPromise, fgPromise, birdPromise, pipeUpPromise, pipeBottomPromise, spritePromise, vzmahPromise, scorePromise, crashPromise])
+    }
 }
 
 export default Game;

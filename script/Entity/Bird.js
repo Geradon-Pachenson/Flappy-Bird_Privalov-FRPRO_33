@@ -1,4 +1,3 @@
-
 class Bird {
     constructor(setting) {
         this._drawEngine = setting.drawEngine;
@@ -21,7 +20,7 @@ class Bird {
     // рисуем птичку на канвасе
     draw() {
         //Если текущая игра запущена, запускаем отрисовку труб
-        if (this._config.state.current !== this._config.state.game) {
+        if (this._config.state.current !== this._config.state.play) {
             return;
         } else {
             this._config.increaseInd(); // Увеличиваем индекс на каждом кадре

@@ -1,9 +1,5 @@
 export default class Config {
-    constructor() {
-    }
-
-    btnClick = false;
-
+    
     //Переменные для стабилизации скорости отрисовки
     frameRate = 60; // Желаемая частота кадров (FPS)
     frameDelay = 1000 / this.frameRate; // Задержка между кадрами в миллисекундах
@@ -11,9 +7,9 @@ export default class Config {
     // Текущее состояния игры
     state = {
         current: 0,
-        getReady: 0,
-        game: 1,
-        over: 2
+        ready: 0,
+        play: 1,
+        over: 2,
     }
 
     // переменная, необходимая для расчёта
@@ -25,6 +21,7 @@ export default class Config {
         this.index += 1.7;
     };
 
+    //Параметры canvas
     canvas = {
         id: 'canvas',
         width: 450,
@@ -40,7 +37,7 @@ export default class Config {
         h: (this.canvas.land * 0.25) * 0.3,
     };
 
-    // константы для физики птицы
+    // константы для физического движка и отрисовки
     gravity = 1.6;
     SPEED = 2;
     jump = (this.canvas.land * 0.25) / 2; //Прыжок птицы равен половине свободного расстояния между трубами
@@ -58,12 +55,6 @@ export default class Config {
 
     // координата по оси Х фонового изображения
     backgroudX = -((this.index * this.SPEED) % 1900);
-
-    spriteSheet = {
-        width: 606,
-        height: 428,
-        src: '../images/png/sprite.png'
-    }
 
     //Параметры верхней части фонового изображения
     bg = {
@@ -174,6 +165,7 @@ export default class Config {
         //Создаём расстояние между трубами равное 25% высоты трубы
         gap: this.canvas.land * 0.25, 
 
+        //Отступ для корректировки столкновений
         padding: 33,
     }
 
@@ -184,7 +176,7 @@ export default class Config {
         crashSrc: '../audio/crash.mp3'
     }
 
-    //Старотовое изображение и таблица результатов
+    //Таблица результатов
     sprite ={
         url: "../images/png/sprite.png",
     }

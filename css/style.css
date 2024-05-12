@@ -29,6 +29,7 @@ body {
 #canvas {
     box-shadow: 0px 0px 29px 12px #b392ff70;
     border-radius: 5px;
+    background-image: url(../images/png/startBg.png);
 }
 
 .body__title {

@@ -1,4 +1,3 @@
-
 class Score {
     constructor(setting) {
         this._config = setting.config;
@@ -56,16 +55,14 @@ class Score {
 
     //Функция отрисовки очков
     draw() {
-        if (this._config.state.current == this._config.state.game) { // рисуем счёт во время игры
+        if (this._config.state.current == this._config.state.play) { // рисуем счёт во время игры
             this._drawEngine.context.lineWidth = 2;
             this._drawEngine.context.font = "30px 'YesevaOne-Regular', cursive";
             this._drawEngine.context.strokeStyle = "#9e9a41";
             this._drawEngine.context.strokeText(`Score: ${this.currentScore}`, 310, 680);
         } else if (this._config.state.current == this._config.state.over) { // рисуем счет после окончания игры
             this._drawEngine.context.font = "30px 'YesevaOne-Regular', cursive";
-            // текущий
-            this._drawEngine.context.strokeText(this.currentScore, 315, 300);
-        // лучщий
+            this._drawEngine.context.strokeText(this.currentScore, 310, 300);
             this._drawEngine.context.strokeText(this._record, 310, 355);
         }
     }

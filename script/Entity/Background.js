@@ -15,28 +15,6 @@ class Background {
         this.fgImg.src = this._config.fg.url;
 
         this.backgroudX = 0;
-
-        // объект изображения стартового фонового изображения
-        this.startImg = new Image();
-        this.startImg.src = this._config.sprite.url;
-    }
-
-     // рисуем таблицу результатов на канвасе
-    drawStartImg() {
-        console.log(123);
-        this._drawEngine.draw(
-            this.startImg,
-        
-            1,
-            116,
-            172,
-            183,
-            
-            100,
-            170,
-            250,
-            250,
-        );
     }
 
     // рисуем фоновое изображение на канвасе 
@@ -45,7 +23,7 @@ class Background {
         this.backgroudX = (this.backgroudX - this._config.SPEED) % 1900;
 
         //Если игра запущена, анимируем фон
-        if (this._config.state.current === this._config.state.game) {
+        if (this._config.state.current === this._config.state.play) {
             //функция отрисовки первой верхней части фона
             this._drawEngine.draw(
                 this.bgImg,
@@ -95,9 +73,8 @@ class Background {
 
     // рисуем фоновое изображение на канвасе
     drawFg() {
-
         //Если игра запущена, анимируем фон
-        if (this._config.state.current === this._config.state.game) {
+        if (this._config.state.current === this._config.state.play) {
             //функция отрисовки первой нижней части фона
             this._drawEngine.draw(
                 this.fgImg,
@@ -144,7 +121,5 @@ class Background {
         }
     }
 }
-
-
 
 export default Background;
